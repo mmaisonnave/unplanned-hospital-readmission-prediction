@@ -1,0 +1,20 @@
+# repository_path: /Users/marianomaisonnave/Repositories/unplanned-hospital-readmission-prediction/
+# data_path: /Users/marianomaisonnave/Documents/CBU Postdoc/Grant Data/Merged/
+repository_path: /home/maiso/cbu/repositories/unplanned-hospital-readmission-prediction
+data_path: /home/maiso/cbu/data
+
+models_config: ["$repository_path", "config/model_configurations.json"]
+experiments_config: ["$repository_path", "config/experiment_configurations.json"]
+
+experiment_results_cv: ["$repository_path", "results/experiments_results_cv.csv"]
+
+diagnosis_dict: ["$data_path", "2015_2022/diagnosis_dict.json"]
+intervention_dict: ["$data_path", "2015_2022/intervention_dict.json"]
+
+#GENSIM
+gensim_model_folder: ["$repository_path", "gensim/models/"]
+
+encrypted_train_val_json: ["$data_path", "2015_2022/train_validation.json.encryption"]
+encrypted_heldout_json: ["$data_path", "2015_2022/heldout.json.encryption"]
+
+keyfile: ["$repository_path", "config/alc.key"]
