@@ -53,7 +53,7 @@ def model_from_configuration(params, random_state):
                    break_ties=params['break_ties'],
                    random_state=random_state,
                    )
-    if params['model_name'].startswith('DecisionTreeClassifier'):
+    if params['model_name'].startswith('DT'):
         return DecisionTreeClassifier(criterion=params['criterion'],
                                       splitter=params['splitter'],
                                       max_depth=params['max_depth'],
@@ -67,7 +67,7 @@ def model_from_configuration(params, random_state):
                                       class_weight=params['class_weight'],
                                       ccp_alpha=params['ccp_alpha'],
                                      )
-    if params['model_name'].startswith('LogisticRegression'):
+    if params['model_name'].startswith('LR'):
         return LogisticRegression(penalty=params['penalty'],
                                   dual=params['dual'],
                                   tol=params['tol'],
@@ -104,7 +104,7 @@ def model_from_configuration(params, random_state):
                                       ccp_alpha=params['ccp_alpha'],
                                       max_samples=params['max_samples'],
                                      )
-    if params['model_name'].startswith('MLPClassifier'):
+    if params['model_name'].startswith('MLP'):
         return MLPClassifier(hidden_layer_sizes=params['hidden_layer_sizes'],
                              activation=params['activation'],
                              solver=params['solver'],
@@ -147,7 +147,7 @@ def model_from_configuration(params, random_state):
                            fit_prior=params['fit_prior'],
                            class_prior=params['class_prior'],
                           )
-    if params['model_name'].startswith('BalancedRandomForestClassifier'):
+    if params['model_name'].startswith('BRF'):
         return BalancedRandomForestClassifier(n_estimators=params['n_estimators'],
                                               criterion=params['criterion'],
                                               max_depth=params['max_depth'],
