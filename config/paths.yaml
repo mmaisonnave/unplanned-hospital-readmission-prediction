@@ -18,3 +18,92 @@ encrypted_train_val_json: ["$data_path", "2015_2022/train_validation.json.encryp
 encrypted_heldout_json: ["$data_path", "2015_2022/heldout.json.encryption"]
 
 keyfile: ["$repository_path", "config/alc.key"]
+
+
+# ORIGINAL DATA
+
+# 1. For first script: creating_cz_and_noncz_csv_files.py (creating_database.sh)
+unified_merged_file_cz: ["$data_path", "2015_2022/full_cz_database.csv"]
+unified_merged_file_noncz: ["$data_path", "2015_2022/full_noncz_database.csv"]
+
+# 2. For second script: creating_single_csv.py (creating_database.sh)
+unified_merged_file: ["$data_path", "2015_2022/full_database.csv"]
+
+
+# 3. For third script: creating_one_json.py (creating_database.sh)
+json_file: ["$data_path", "2015_2022/full_database.json"]
+
+
+# 4. For fourth script: creating_held_out.py (creating_held_out.sh)
+train_val_json: ["$data_path", "2015_2022/train_validation.json"]
+heldout_json: ["$data_path", "2015_2022/heldout.json"]
+unused_after_heldout_json: ["$data_path", "2015_2022/unused_after_held_out.json"]
+
+
+cz_files:
+ - 2015/ALC Machine 2015Q1 - coded HCN.csv
+ - 2015/ALC Machine 2015Q2 - coded HCN.csv
+ - 2015/ALC Machine 2015Q3 - coded HCN.csv
+ - 2015/ALC Machine 2015Q4 - coded HCN.csv
+ - 2016/ALC Machine 2016Q1 - coded HCN.csv
+ - 2016/ALC Machine 2016Q2 - coded HCN.csv
+ - 2016/ALC Machine 2016Q3 - coded HCN.csv
+ - 2016/ALC Machine 2016Q4 - coded HCN.csv
+ - 2017/ALC Machine 2017Q1 - coded HCN.csv
+ - 2017/ALC Machine 2017Q2 - coded HCN.csv
+ - 2017/ALC Machine 2017Q3 - coded HCN.csv
+ - 2017/ALC Machine 2017Q4 - coded HCN.csv
+ - 2018/ALC Machine 2018Q1 - coded HCN.csv
+ - 2018/ALC Machine 2018Q2 - coded HCN.csv
+ - 2018/ALC Machine 2018Q3 - coded HCN.csv
+ - 2018/ALC Machine 2018Q4 - coded HCN.csv
+ - 2019/ALC Machine 2019Q1 - coded HCN.csv
+ - 2019/ALC Machine 2019Q2 - coded HCN.csv
+ - 2019/ALC Machine 2019Q3 - coded HCN.csv
+ - 2019/ALC Machine 2019Q4 - coded HCN.csv
+ - 2020/ALC Machine 2020Q1 - coded HCN.csv
+ - 2020/ALC Machine 2020Q2 - coded HCN.csv
+ - 2020/ALC Machine 2020Q3 - coded HCN.csv
+ - 2020/ALC Machine 2020Q4 - coded HCN.csv
+ - 2021/ALC Machine 2021Q1 - coded HCN.csv
+ - 2021/ALC Machine 2021Q2 - coded HCN.csv
+ - 2021/ALC Machine 2021Q3 - coded HCN.csv
+ - 2021/ALC Machine 2021Q4 - coded HCN.csv
+ - 2022/ALC Machine 2022Q1 - coded HCN.csv
+ - 2022/ALC Machine 2022Q2 - coded HCN.csv
+ - 2022/ALC Machine 2022Q3 - coded HCN.csv
+ - 2022/ALC Machine 2022Q4 - coded HCN.csv
+
+noncz_files:
+ - 2015/2015 Non CZ - coded HCN/noncz 2015Q1.csv
+ - 2015/2015 Non CZ - coded HCN/noncz 2015Q2.csv
+ - 2015/2015 Non CZ - coded HCN/noncz 2015Q3.csv
+ - 2015/2015 Non CZ - coded HCN/noncz 2015Q4.csv
+ - 2016/2016 Non CZ - coded HCN/noncz 2016Q1.csv
+ - 2016/2016 Non CZ - coded HCN/noncz 2016Q2.csv
+ - 2016/2016 Non CZ - coded HCN/noncz 2016Q3.csv
+ - 2016/2016 Non CZ - coded HCN/noncz 2016Q4.csv
+ - 2017/2017 Non CZ - coded HCN/noncz 2017Q1.csv
+ - 2017/2017 Non CZ - coded HCN/noncz 2017Q2.csv
+ - 2017/2017 Non CZ - coded HCN/noncz 2017Q3.csv
+ - 2017/2017 Non CZ - coded HCN/noncz 2017Q4.csv
+ - 2018/2018 Non CZ - coded HCN/noncz 2018Q1.csv
+ - 2018/2018 Non CZ - coded HCN/noncz 2018Q2.csv
+ - 2018/2018 Non CZ - coded HCN/noncz 2018Q3.csv
+ - 2018/2018 Non CZ - coded HCN/noncz 2018Q4.csv
+ - 2019/2019 Non CZ - coded HCN/noncz 2019Q1.csv
+ - 2019/2019 Non CZ - coded HCN/noncz 2019Q2.csv
+ - 2019/2019 Non CZ - coded HCN/noncz 2019Q3.csv
+ - 2019/2019 Non CZ - coded HCN/noncz 2019Q4.csv
+ - 2020/2020 Non CZ - coded HCN/noncz 2020Q1.csv
+ - 2020/2020 Non CZ - coded HCN/noncz 2020Q2.csv
+ - 2020/2020 Non CZ - coded HCN/noncz 2020Q3.csv
+ - 2020/2020 Non CZ - coded HCN/noncz 2020Q4.csv
+ - 2021/2021 Non CZ - coded HCN/noncz 2021Q1.csv
+ - 2021/2021 Non CZ - coded HCN/noncz 2021Q2.csv
+ - 2021/2021 Non CZ - coded HCN/noncz 2021Q3.csv
+ - 2021/2021 Non CZ - coded HCN/noncz 2021Q4.csv
+ - 2022/2022 Non CZ - coded HCN/noncz 2022Q1.csv
+ - 2022/2022 Non CZ - coded HCN/noncz 2022Q2.csv
+ - 2022/2022 Non CZ - coded HCN/noncz 2022Q3.csv
+ - 2022/2022 Non CZ - coded HCN/noncz 2022Q4.csv
