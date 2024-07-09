@@ -16,3 +16,14 @@ it runs:
 - bash/running_all_experiments_cv.sh
 it runs:
 1. src/running_all_experiments_cv.py
+
+
+### Explainability Experiments:
+- Decision trees: run_explainable_dt.{sh|py}
+- Logistic Regression: run_explainable_logreg.{sh|py}
+- SHAP: run_shap_on_brf.{sh|py}
+- PFI: compute_permutation_feature_importance.{sh|py}
+
+
+### Experiments on heldout:
+- test_guidelines{sh|py}

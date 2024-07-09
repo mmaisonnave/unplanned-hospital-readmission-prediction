@@ -6,12 +6,11 @@ data_path: /home/maiso/cbu/data
 models_config: ["$repository_path", "config/model_configurations.json"]
 experiments_config: ["$repository_path", "config/experiment_configurations.json"]
 
-experiment_results_cv: ["$repository_path", "results/experiments_results_cv.csv"]
 
 diagnosis_dict: ["$data_path", "2015_2022/diagnosis_dict.json"]
 intervention_dict: ["$data_path", "2015_2022/intervention_dict.json"]
 
-#GENSIM
+### -- -- -- GENSIM -- -- -- 
 gensim_model_folder: ["$repository_path", "gensim/models/"]
 
 encrypted_train_val_json: ["$data_path", "2015_2022/train_validation.json.encryption"]
@@ -19,9 +18,51 @@ encrypted_heldout_json: ["$data_path", "2015_2022/heldout.json.encryption"]
 
 keyfile: ["$repository_path", "config/alc.key"]
 
+### -- -- -- CROSS VALIDATION EXPERIMENTS -- -- -- 
+experiment_results_cv: ["$repository_path", "results/experiments_results_cv.csv"]
 
-# ORIGINAL DATA
 
+### -- -- -- EXPLAINABILITY -- -- -- 
+# SHAP
+brf_on_shap_metrics: ["$repository_path", "results/brf_on_shap_metrics.csv"]
+shap_on_brf_figures: ["$figures_folder", "shap_on_brf_figures.jpg"]
+
+# DT
+explainable_dt_metrics: ["$repository_path", "results/explainable_dt_metrics.csv"]
+explainable_dt_figures: ["$figures_folder", "explainable_decision_tree.jpg"]
+
+# Explainable LR 
+explainable_logreg_metrics: ["$repository_path", "results/explainable_logreg_metrics.csv"]
+explainable_logreg_coefficients: ["$repository_path", "results/explainable_logreg_coefficients.csv"]
+
+# PFI
+permutation_brf_with_cat_and_num: ["$repository_path", "results/permutation_brf_with_cat_and_num.csv"]
+permutation_feature_importance_results: ["$repository_path", "results/permutation_feature_importance.csv"]
+
+
+# -- -- -- DATASET STATISTICS -- -- -- 
+dataset_statistics_table: ["$repository_path", "results/dataset_statistics_table.csv"]
+
+
+
+### -- -- -- HELD OUT  -- -- -- 
+# Guideline DTs performance and figures:
+guideline_dts_performances: ["$repository_path", "results/guideline_dts_performances.csv"]
+guidelines_dts_figures: ["$figures_folder", "guideline_dts"]
+
+# ML Performance on heldput
+checkpoint_folder: ["$repository_path", "checkpoints"]
+ml_performance_on_held_out: ["$repository_path", "results/ml_performance_on_held_out.csv"]
+
+
+
+### -- -- -- ORIGINAL DATA PATHS -- -- -- 
+# Intervention and Diagnosis mappings
+diagnosis_dict: ["$data_path", "2015_2022/diagnosis_dict.json"]
+intervention_dict: ["$data_path", "2015_2022/intervention_dict.json"]
+
+
+experiment_results_cv: ["$repository_path", "results/experiments_results_cv.csv"]
 # 1. For first script: creating_cz_and_noncz_csv_files.py (creating_database.sh)
 unified_merged_file_cz: ["$data_path", "2015_2022/full_cz_database.csv"]
 unified_merged_file_noncz: ["$data_path", "2015_2022/full_noncz_database.csv"]
