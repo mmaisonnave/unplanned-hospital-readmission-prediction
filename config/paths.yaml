@@ -12,6 +12,8 @@ intervention_dict: ["$data_path", "2015_2022/intervention_dict.json"]
 
 ### -- -- -- GENSIM -- -- -- 
 gensim_model_folder: ["$repository_path", "gensim/models/"]
+gensim_config: ["$repository_path", "config/gensim.json"]
+gensim_results_folder: ["$repository_path", "gensim/results/"]
 
 encrypted_train_val_json: ["$data_path", "2015_2022/train_validation.json.encryption"]
 encrypted_heldout_json: ["$data_path", "2015_2022/heldout.json.encryption"]
@@ -21,6 +23,9 @@ keyfile: ["$repository_path", "config/alc.key"]
 ### -- -- -- CROSS VALIDATION EXPERIMENTS -- -- -- 
 experiment_results_cv: ["$repository_path", "results/experiments_results_cv.csv"]
 
+
+# -- -- -- D+I frequencies -- -- -- 
+intervention_and_diagnosis_frequencies: ["$repository_path", "results/intervention_and_diagnosis_frequencies.csv"]
 
 ### -- -- -- EXPLAINABILITY -- -- -- 
 # SHAP

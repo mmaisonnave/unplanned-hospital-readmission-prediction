@@ -1,0 +1,104 @@
+{
+    "diagnosis_configs":{
+        "diag_conf_1": {
+            "epochs": 5,
+            "vector_size": 100
+        },
+        "diag_conf_2": {
+            "epochs": 10,
+            "vector_size": 100
+        },
+        "diag_conf_3": {
+            "epochs": 50,
+            "vector_size": 100
+        },
+        "diag_conf_4": {
+            "epochs": 200,
+            "vector_size": 100
+        },
+        "diag_conf_5": {
+            "epochs": 500,
+            "vector_size": 100
+        },
+        "diag_conf_6": {
+            "epochs": 50,
+            "vector_size": 50
+        },
+        "diag_conf_7": {
+            "epochs": 50,
+            "vector_size": 300
+        },
+        "diag_conf_8": {
+            "epochs": 200,
+            "vector_size": 300
+        },
+        "diag_conf_9": {
+            "epochs": 1000,
+            "vector_size": 100
+        },
+        "diag_conf_10": {
+            "epochs": 750,
+            "vector_size": 100
+        },
+        "diag_conf_11": {
+            "epochs": 200,
+            "vector_size": 10
+        },
+        "diag_conf_12": {
+            "epochs": 1000,
+            "vector_size": 10
+        },
+        "diag_conf_13": {
+            "epochs": 200,
+            "vector_size": 10,
+            "dm":0
+        },
+        "diag_conf_14": {
+            "epochs": 10,
+            "vector_size": 10
+        },
+        "diag_conf_15": {
+            "epochs": 5,
+            "vector_size": 10
+        }
+    },
+    "intervention_configs":{
+        "interv_conf_1": {
+            "epochs": 5,
+            "vector_size": 100
+        },
+        "interv_conf_2": {
+            "epochs": 25,
+            "vector_size": 100
+        },
+        "interv_conf_3": {
+            "epochs": 50,
+            "vector_size": 100
+        },
+        "interv_conf_4": {
+            "epochs": 50,
+            "vector_size": 300
+        },
+        "interv_conf_5": {
+            "epochs": 100,
+            "vector_size": 100
+        },
+        "interv_conf_6": {
+            "epochs": 500,
+            "vector_size": 100
+        },
+        "interv_conf_7": {
+            "epochs": 200,
+            "vector_size": 10
+        },
+        "interv_conf_8": {
+            "epochs": 1000,
+            "vector_size": 10
+        },
+        "interv_conf_9": {
+            "epochs": 200,
+            "vector_size": 10,
+            "dm":0
+        }
+    }
+}
