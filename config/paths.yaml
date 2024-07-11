@@ -46,9 +46,13 @@ pfi_performance: ["$repository_path", "results/pfi_performance.csv"]
 pfi_results: ["$repository_path", "results/pfi_results.csv"]
 
 
+# Consensus DT 
+consensus_dt_metrics: ["$repository_path", "results/consensus_dt_metrics.csv"]
+consensus_dt_figures: ["$figures_folder", "consensus_dt_figures.jpg"]
+
+
 # -- -- -- DATASET STATISTICS -- -- -- 
 dataset_statistics_table: ["$repository_path", "results/dataset_statistics_table.csv"]
-
 
 
 ### -- -- -- HELD OUT  -- -- -- 

@@ -70,7 +70,7 @@ if __name__ == '__main__':
                                                 description='TEST')]
 
 
-        fig, ax = plt.subplots(figsize=(14,7))
+        fig, ax = plt.subplots(figsize=(25,15))
         tree.plot_tree(dt_model,
                     feature_names=list(map(_capitalize_feature_name, features_names)),
                     class_names=['NR', 'R'],

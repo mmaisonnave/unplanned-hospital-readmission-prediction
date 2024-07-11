@@ -166,3 +166,4 @@ cython_debug/
 
 # My own
 config/alc.key
+checkpoints/*

@@ -19,23 +19,28 @@ def get_metric_evaluations_from_yscore(y, y_score, description=None):
     results = {key: [value] for key, value in results.items()}
     return pd.DataFrame(results)
 
-# def get_metric_evaluations_from_yhat_and_ypred(y_true, y_pred, y_score=None, description=None):
-#     tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
-#     results = {'Description': '' if description is None else description,
-#                         'Accuracy': accuracy_score(y_true, y_pred),
-#                         'Precision': precision_score(y_true, y_pred),
-#                         'Recal': recall_score(y_true, y_pred),
-#                         'F1-Score': f1_score(y_true, y_pred),
-#                         'TN': tn,
-#                         'TP': tp,
-#                         'FN': fn,
-#                         'FP': fp
-#                         }
-#     if not y_score is None:
-#         results['AUC'] = roc_auc_score(y_true=y_true, y_score=y_score)
+def get_metric_evaluations_from_ypred(y_true, 
+                                      y_pred, 
+                                      y_score=None, 
+                                      description=None):
+    tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
+    results = {'Description': '' if description is None else description,
+                        'Accuracy': accuracy_score(y_true, y_pred),
+                        'Precision': precision_score(y_true, y_pred),
+                        'Recal': recall_score(y_true, y_pred),
+                        'F1-Score': f1_score(y_true, y_pred),
+                        'TN': tn,
+                        'TP': tp,
+                        'FN': fn,
+                        'FP': fp
+                        }
+    if not y_score is None:
+        results['AUC'] = roc_auc_score(y_true=y_true, y_score=y_score)
+    else:
+        results['AUC']='N/A'
 
-#     results = {key: [value] for key, value in results.items()}
-#     return pd.DataFrame(results)
+    results = {key: [value] for key, value in results.items()}
+    return pd.DataFrame(results)
 
 def get_metric_evaluations(trained_model,
                             X,
