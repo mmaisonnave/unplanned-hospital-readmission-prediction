@@ -107,4 +107,4 @@ if __name__ == '__main__':
 
     io.debug(data)
     results = pd.DataFrame(data)
-    results.T.to_csv(config['dataset_statistics_table'], index=False)
+    results.T.to_csv(config['dataset_statistics_table'], index=True, header=False)

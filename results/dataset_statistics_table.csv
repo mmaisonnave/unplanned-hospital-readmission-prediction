@@ -1,0 +1,21 @@
+Population,Readmitted,Not Readmitted
+Total Count,21946,502364
+Male,11450,242787
+Female,10496,259568
+ALC,331,17521
+Rural,12147,294319
+Urgent Admission,18851,344970
+Elective Admission,2886,133768
+Newborn Admission,209,23626
+Clinic Entry,596,18005
+Direct Entry,5442,192373
+Emergency Entry,15312,257338
+New Acute Patient,4183,167581
+Day Surgery Entry,388,11096
+Planned Readmit,3188,107495
+Unplanned Readmit,3303,25650
+Age 0-18,549,34913
+Age 19-35,2288,57680
+Age 36-50,2735,53477
+Age 51-65,5488,118577
+Age 66+,11163,237717

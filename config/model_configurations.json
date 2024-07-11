@@ -392,7 +392,7 @@
                             ]
                 },
     "model_6_depth_3": {
-        "model_name": "DecisionTreeClassifier(class_weight=balanced, min_samples_leaf=1000)",
+        "model_name": "DT(class_weight=balanced, min_samples_leaf=1000)",
         "criterion": "gini",
         "splitter": "best",
         "max_depth": 3,

@@ -104,7 +104,7 @@ if __name__ == '__main__':
                                                    description='LogReg test')])
 
 
-    df.to_csv(config['explainable_logreg_metrics'], index=False)
+    df.to_csv(config['explainable_lr_metrics'], index=False)
 
     io.debug('Formating and storing resuts ...')
     diagnosis_mapping = health_data.Admission.get_diagnoses_mapping()
@@ -138,5 +138,5 @@ if __name__ == '__main__':
     # I could never run this process, it dies, 7 days is not enough time to run this part. Pvalues are not computed
     # coefficients_df['pvalues'] = _logit_pvalue(logreg, X_train)
 
-    coefficients_df.to_csv(config['explainable_logreg_coefficients'], index=False)
+    coefficients_df.to_csv(config['explainable_lr_coefficients'], index=False)
     io.debug('DONE')

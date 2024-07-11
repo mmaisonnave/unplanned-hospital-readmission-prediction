@@ -9,17 +9,37 @@ def _format(message:str)->str:
 def done()->None:
     ok('Done!')
 
-def ok(message:str)->None:
+def ok(obj)->None:
+    if isinstance(obj,str):
+        message = obj
+    else:
+        message =str(obj)
     print(f'{str(datetime.datetime.now())} [  OK   ] {_format(message)}')
 
-def warning(message:str)->None:
+def warning(obj:str)->None:
+    if isinstance(obj,str):
+        message = obj
+    else:
+        message =str(obj)
     print(f'{str(datetime.datetime.now())} [WARNING] {_format(message)}')
 
-def debug(message:str)->None:
+def debug(obj:str)->None:
+    if isinstance(obj,str):
+        message = obj
+    else:
+        message =str(obj)
     print(f'{str(datetime.datetime.now())} [ DEBUG ] {_format(message)}')
 
-def info(message:str)->None:
+def info(obj:str)->None:
+    if isinstance(obj,str):
+        message = obj
+    else:
+        message =str(obj)
     print(f'{str(datetime.datetime.now())} [ INFO  ] {_format(message)}')
 
-def error(message:str)->None:
+def error(obj:str)->None:
+    if isinstance(obj,str):
+        message = obj
+    else:
+        message =str(obj)
     print(f'{str(datetime.datetime.now())} [ ERROR ] {_format(message)}')

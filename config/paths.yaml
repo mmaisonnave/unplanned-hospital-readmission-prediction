@@ -2,6 +2,7 @@
 # data_path: /Users/marianomaisonnave/Documents/CBU Postdoc/Grant Data/Merged/
 repository_path: /home/maiso/cbu/repositories/unplanned-hospital-readmission-prediction
 data_path: /home/maiso/cbu/data
+figures_folder: ["$repository_path", "results/figures/"]
 
 models_config: ["$repository_path", "config/model_configurations.json"]
 experiments_config: ["$repository_path", "config/experiment_configurations.json"]
@@ -29,20 +30,20 @@ intervention_and_diagnosis_frequencies: ["$repository_path", "results/interventi
 
 ### -- -- -- EXPLAINABILITY -- -- -- 
 # SHAP
-brf_on_shap_metrics: ["$repository_path", "results/brf_on_shap_metrics.csv"]
-shap_on_brf_figures: ["$figures_folder", "shap_on_brf_figures.jpg"]
+shap_metrics: ["$repository_path", "results/shap_metrics.csv"]
+shap_figures: ["$figures_folder", "shap_figures.jpg"]
 
 # DT
 explainable_dt_metrics: ["$repository_path", "results/explainable_dt_metrics.csv"]
 explainable_dt_figures: ["$figures_folder", "explainable_decision_tree.jpg"]
 
 # Explainable LR 
-explainable_logreg_metrics: ["$repository_path", "results/explainable_logreg_metrics.csv"]
-explainable_logreg_coefficients: ["$repository_path", "results/explainable_logreg_coefficients.csv"]
+explainable_lr_metrics: ["$repository_path", "results/explainable_lr_metrics.csv"]
+explainable_lr_coefficients: ["$repository_path", "results/explainable_lr_coefficients.csv"]
 
 # PFI
-permutation_brf_with_cat_and_num: ["$repository_path", "results/permutation_brf_with_cat_and_num.csv"]
-permutation_feature_importance_results: ["$repository_path", "results/permutation_feature_importance.csv"]
+pfi_performance: ["$repository_path", "results/pfi_performance.csv"]
+pfi_results: ["$repository_path", "results/pfi_results.csv"]
 
 
 # -- -- -- DATASET STATISTICS -- -- -- 

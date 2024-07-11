@@ -35,8 +35,10 @@ if __name__ == "__main__":
             assert code2frequency[('I',feature_name.lower())]==0
             code2frequency[('I',feature_name.lower())]=freq
 
+    sorted_results = [(code,freq) for code, freq in code2frequency.items()]
+    sorted_results = sorted(sorted_results, key=lambda x: x[1], reverse=True)
 
     with open(config['intervention_and_diagnosis_frequencies'], 'w', encoding='utf-8') as writer:
-        writer.write('\n'.join(f'{code},{freq}' for code, freq in code2frequency.items()))
+        writer.write('\n'.join(f'{code},{freq}' for code, freq in sorted_results))
     
 

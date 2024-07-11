@@ -91,7 +91,7 @@ if __name__ == '__main__':
     
     io.debug(df[['Precision', 'Recal', 'F1-Score', 'AUC']])
 
-    df.to_csv(config['permutation_brf_with_cat_and_num'],
+    df.to_csv(config['pfi_performance'],
             index=True)
 
     io.debug('Computing permutation feature importance ...')
@@ -114,8 +114,7 @@ if __name__ == '__main__':
     results = results.sort_values(by='importances_mean',
                                   ascending=False)
 
-    output_filename = config['permutation_feature_importance_results']
-    output_filename = output_filename[:-4] + "_only_num_and_cat.csv"
+    output_filename = config['pfi_results']
 
     results.to_csv(output_filename,
                    index=None)

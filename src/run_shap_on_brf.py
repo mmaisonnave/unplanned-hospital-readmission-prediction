@@ -65,7 +65,7 @@ if __name__ == "__main__":
                                         experiment_config_name=EXPERIMENT_CONFIGURATION_NAME,
                                         description='TEST')])
     
-    csv_name = config['brf_on_shap_metrics'][:-len(".csv")]
+    csv_name = config['shap_metrics'][:-len(".csv")]
     csv_name = csv_name + f'_BGD={SAMPLE_SIZE_FOR_BACKGROUND_DISTRIBUTION}'
     csv_name = csv_name + f'_SS={SAMPLE_SIZE_TO_COMPUT_SHAP_ON}.csv'
     df.to_csv(csv_name, index=False)
@@ -93,15 +93,15 @@ if __name__ == "__main__":
     # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
     # ~ Default beeswarm plot ~
     # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
+    fig, ax = plt.gcf(), plt.gca()
     io.debug(f'shap_values.shape={shap_values.shape}')
     shap.plots.beeswarm(shap_values,
                         max_display=30,
                         )
 
-    fig, ax = plt.gcf(), plt.gca()
 
 
-    figure_name = config['shap_on_brf_figures'][:-len(".jpg")]
+    figure_name = config['shap_figures'][:-len(".jpg")]
     figure_name = figure_name + f'_BGD={SAMPLE_SIZE_FOR_BACKGROUND_DISTRIBUTION}'
     figure_name = figure_name + f'_SS={SAMPLE_SIZE_TO_COMPUT_SHAP_ON}.jpg'
 
@@ -115,13 +115,15 @@ if __name__ == "__main__":
     # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
     # ~ Absolute beeswarm plot  ~
     # ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~
-    shap.plots.beeswarm(shap_values.abs, 
+    fig, ax = plt.gcf(), plt.gca()
+    shap.plots.beeswarm(shap_values.abs,
                         max_display=30,
                         color="shap_red")
 
-    figure_name = config['shap_on_brf_figures'][:-len(".jpg")]
+    figure_name = config['shap_figures'][:-len(".jpg")]
     figure_name = figure_name + f'_BGD={SAMPLE_SIZE_FOR_BACKGROUND_DISTRIBUTION}'
     figure_name = figure_name + f'_SS={SAMPLE_SIZE_TO_COMPUT_SHAP_ON}_abs.jpg'
+
 
     ax.tick_params(axis='both', which='major', labelsize=14)
     ax.tick_params(axis='both', which='minor', labelsize=14)
@@ -133,14 +135,16 @@ if __name__ == "__main__":
     # ~ ~ ~ ~ ~ ~ ~ 
     # ~ bar plot  ~
     # ~ ~ ~ ~ ~ ~ ~
+    fig, ax = plt.gcf(), plt.gca()
     shap.plots.bar(shap_values.abs.mean(0),
                     max_display=30
                    )
 
 
-    figure_name = config['shap_on_brf_figures'][:-len(".jpg")]
+    figure_name = config['shap_figures'][:-len(".jpg")]
     figure_name = figure_name + f'_BGD={SAMPLE_SIZE_FOR_BACKGROUND_DISTRIBUTION}'
     figure_name = figure_name + f'_SS={SAMPLE_SIZE_TO_COMPUT_SHAP_ON}_bar.jpg'
+
 
     ax.tick_params(axis='both', which='major', labelsize=14)
     ax.tick_params(axis='both', which='minor', labelsize=14)
