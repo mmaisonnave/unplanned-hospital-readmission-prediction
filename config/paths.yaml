@@ -31,7 +31,7 @@ intervention_and_diagnosis_frequencies: ["$repository_path", "results/interventi
 ### -- -- -- EXPLAINABILITY -- -- -- 
 # SHAP
 shap_metrics: ["$repository_path", "results/shap_metrics.csv"]
-shap_figures: ["$figures_folder", "shap_figures.jpg"]
+shap_figure: ["$figures_folder", "shap_figure.jpg"]
 
 # DT
 explainable_dt_metrics: ["$repository_path", "results/explainable_dt_metrics.csv"]
