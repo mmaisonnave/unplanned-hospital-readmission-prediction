@@ -167,4 +167,4 @@ cython_debug/
 # My own
 config/alc.key
 checkpoints/*
-# gensim/models/*npy
+gensim/models/interv_conf_2_embeddings.npy

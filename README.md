@@ -27,3 +27,8 @@ it runs:
 
 ### Experiments on heldout:
 - test_guidelines{sh|py}
+
+
+
+### Note Regarding Embeddings
+- For some experiments precomputed embeddings are required, I cannot upload them because of size. I am uploading them in parts (see gensim/models). To join them back use the script merge_interv_conf_2_embeddings.sh. The only file it was to big was (diag_conf_11_embeddings.npy) I splitted into six parts (interv_conf_2_embeddings.npy.tgz.part1 ...).
