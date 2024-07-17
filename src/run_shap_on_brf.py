@@ -101,7 +101,7 @@ if __name__ == "__main__":
 
 
 
-    figure_name = config['shap_figures'][:-len(".jpg")]
+    figure_name = config['shap_figure'][:-len(".jpg")]
     figure_name = figure_name + f'_BGD={SAMPLE_SIZE_FOR_BACKGROUND_DISTRIBUTION}'
     figure_name = figure_name + f'_SS={SAMPLE_SIZE_TO_COMPUT_SHAP_ON}.jpg'
 
