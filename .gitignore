@@ -168,4 +168,3 @@ cython_debug/
 config/alc.key
 checkpoints/*
 gensim/models/interv_conf_2_embeddings.npy
-gensim/models/diag_conf_11_embeddings.npy
