@@ -1,4 +1,7 @@
+
 echo "Joining back interv_conf_2_embeddings.npy. Six parts required"
+# File originally splitted in 50MB chunks using "split" comand as follows
+# $ split interv_conf_2_embeddings.npy.tgz -b 50m interv_conf_2_embeddings.npy.tgz
 
 cat interv_conf_2_embeddings.npy.tgz.part1 \
 	interv_conf_2_embeddings.npy.tgz.part2 \
