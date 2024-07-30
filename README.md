@@ -46,14 +46,6 @@ We ran all experiments using the dependencies and libraries listed in the `requi
 
 ## Running the Experiments
 
-
-
-- Running scritps to create create dataset and create data splits.
-- Running ML experiments
-- Runing Explainability experiments
-- Running Misc Experiments
-
-
 **Database Creation**
 To store the data in a more computer-friendly format, we took the original data, which was divided into multiple files across multiple folders and merged into a single JSON file. The `bash/creating_database.sh` script handles this procedure. It offloads the task to three Python scripts:
 
@@ -71,25 +63,16 @@ The `bash/creating_held_out.sh` splits the data (stored in a single JSON file) t
 
 
 
-**Explainability Experiments**
-- Decision trees: run_explainable_dt.{sh|py}
-- Logistic Regression: run_explainable_logreg.{sh|py}
-- SHAP: run_shap_on_brf.{sh|py}
-- PFI: compute_permutation_feature_importance.{sh|py}
-- Interaction analysis (consensus_analysis_dt.{sh|py})
-
-**Misc**
- - build_dataset_statistics_table.py
- - building_diag_and_interv_code_map.py
- - compute_D_and_I_frequencies.py
- - compute_pretrained_embeddings.py
- - evaluate_gensim_models.py
+**Explainability Experiments** We have individual Python and Bash/Slurm scripts for all explainability experiments. We used the `run_shap_on_brf.{sh|py}` files to run the SHAP experiments. We used the `compute_permutation_feature_importance.{sh|py}` files to run the permutation feature importance experiments. We used the `run_explainable_logreg.{sh|py}` files to run the explainability experiments using the Logistic Regression model. We used the `run_explainable_dt.{sh|py}` files to run the experiments with shallow (max-depth=3) decision trees and save the figures. Finally, we used the `consensus_analysis_dt.{sh|py}` files to run the interaction analysis experiments. The interaction analysis consisted of running an explainable decision tree on top of a dataset that contains the best features found with all the other explainability tools.
 
 
-**Guidelines**
-- test_guidelines{sh|py}
+**Miscellaneous** We used the `build_dataset_statistics_table.{sh|py}` files to build a table with dataset statistics. We build a mapping of intervention and diagnosis codes to their corresponding description using the files in `building_diag_and_interv_code_map.{py
+sh}`. We counted the frequency of each intervention and diagnosis code in the dataset using the `compute_D_and_I_frequencies.{sh|py}` files. 
+
+**Gensim embedding models** To build and test the embedding models we built using Gensim, we used the `compute_pretrained_embeddings.{sh|py}` and `evaluate_gensim_models.{sh|py}` files.
 
 
+**Guidelines** To build and evaluate the guidelines (including on the held-out data), we use the `test_guidelines.{py|sh}` files.
 
 
 ## Authors
