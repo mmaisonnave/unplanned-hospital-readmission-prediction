@@ -171,3 +171,7 @@ gensim/models/interv_conf_2_embeddings.npy
 gensim/models/diag_conf_11_embeddings.npy
 gensim/models/interv_conf_2.dv.vectors.npy
 gensim/models/interv_conf_2.dv.vectors.npy.tgz
+
+
+src/temp.py
+bash/temp.sh
