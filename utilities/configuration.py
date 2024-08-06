@@ -1,5 +1,16 @@
 """
-Module to handle the configuration yaml configuration file.
+Auxiliary functionality to handle the following configuration files:
+    - config/paths.yaml
+    - configs/model_configurations.json
+    - configs/experiment_configurations.json
+
+METHODS:
+--------
+- get_config() -> dict
+- model_from_configuration(params, random_state) -> Some Sklearn or imblearn classifier.
+- model_from_configuration_name(configuration_name) -> dict
+- configuration_from_configuration_name(configuration_name) -> dict
+
 """
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
@@ -16,7 +27,7 @@ import json
 
 def get_config() -> dict:
     """
-    Function to get the dictionary with all the configuration parameters.
+    Function to get the dictionary with all the configuration parameters (config/paths.yaml).
     """
     with open('../config/paths.yaml', 'r') as file:
         config = yaml.safe_load(file)
