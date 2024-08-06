@@ -28,6 +28,8 @@ import json
 def get_config() -> dict:
     """
     Function to get the dictionary with all the configuration parameters (config/paths.yaml).
+    Some configuration examples found in that dictionary are: repository_path, figures_folder, 
+    experiments_config, and shap_figure. 
     """
     with open('../config/paths.yaml', 'r') as file:
         config = yaml.safe_load(file)
@@ -43,7 +45,20 @@ def get_config() -> dict:
 
 
 
-def model_from_configuration(params, random_state):
+def model_from_configuration(params:dict, random_state: np.random.RandomState):
+    """
+    Method that receives a dictionary describing a model, and returns a scikit-learn or imblearn 
+    classifier. 
+
+    Args:
+        params (dict): Dictionary describing the model. 
+        random_state (np.random.RandomState): A random state to use to create non-deterministic 
+                                              models.
+
+    Returns:
+        The method returns a scikit-learn model (such as SVC or DecisionTreeClassifier) or a 
+        imblearn.ensemble.BalancedRandomForestClassifier model. 
+    """    
     if 'class_weight' in params and isinstance(params['class_weight'],dict):
         params['class_weight'] = {float(key):value for key, value in params['class_weight'].items()}
         print(params['class_weight'])
@@ -181,7 +196,21 @@ def model_from_configuration(params, random_state):
                                               random_state=random_state,
                                               )
 
-def model_from_configuration_name(configuration_name):
+def model_from_configuration_name(configuration_name: str):
+    """
+    This method receives a model name it look the configuration up in the model_configurations.json.
+    It used the retrieved configuration from the JSON file to create a new model (using the 
+    model_from_configuration method). It finally returns the created model (either a Scikit-Learn or
+    imblearn model).
+
+    Args:
+        configuration_name (str): The model name. It has to exist in the model_configurations.json
+                                  file.
+
+    Returns:
+        The method returns a scikit-learn model (such as SVC or DecisionTreeClassifier) or a 
+        imblearn.ensemble.BalancedRandomForestClassifier model. 
+    """    
     MODEL_SEED = 1270833263
     config = get_config()
     with open(config['models_config'], encoding='utf-8') as reader:
@@ -191,7 +220,19 @@ def model_from_configuration_name(configuration_name):
     model_random_state = np.random.RandomState(MODEL_SEED)
     return model_from_configuration(model_dict, random_state=model_random_state)
 
-def configuration_from_configuration_name(configuration_name):
+def configuration_from_configuration_name(configuration_name:str) -> dict:
+    """
+    This method takes a configuration name and it resturns the dictionary for that configuration.
+    It retrieves the configuration from the experiment_configurations.json file. 
+
+    Args:
+        configuration_name (str): A valid configuration name from the experiment_configurations.json
+                                  file.
+
+    Returns:
+        dict: It retrieves and return the dictionary with the experiment configuration associated
+              with the configuration_name provided as an argument. 
+    """    
     config = get_config()
     experiment_configurations = json.load(open(config['experiments_config'], encoding='utf-8'))
     return experiment_configurations[configuration_name]
