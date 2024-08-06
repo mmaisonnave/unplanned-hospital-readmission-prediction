@@ -1,3 +1,6 @@
+"""
+
+"""
 from dataclasses import dataclass, fields
 from enum import Enum
 import datetime
@@ -22,8 +25,23 @@ from imblearn.pipeline import Pipeline
 from utilities import data_manager
 from utilities import io
 
-# class syntax
 class ReadmissionCode(Enum):
+    """
+    Enum representing different types of readmission codes.
+
+    This enum categorizes readmission types into planned, unplanned within specific time frames, 
+    new acute patients, other, and none. It also provides methods to check if a code is 
+    associated with unplanned readmission and to get a string representation of the code.
+
+    Attributes:
+        PLANNED_READMIT (int): Code representing a planned readmission.
+        UNPLANNED_READMIT_0_7 (int): Code representing an unplanned readmission within 7 days.
+        UNPLANNED_READMIT_8_28 (int): Code representing an unplanned readmission between 8 and 28 days.
+        UNPLANNED_FROM_SDS_0_7 (int): Code representing an unplanned readmission from SDS within 7 days.
+        NEW_ACUTE_PATIENT (int): Code representing a new acute patient.
+        OTHER (int): Code representing other types of readmissions.
+        NONE (int): Code representing no readmission.
+    """
     PLANNED_READMIT = 1
     UNPLANNED_READMIT_0_7 = 2
     UNPLANNED_READMIT_8_28 = 3
@@ -32,52 +50,40 @@ class ReadmissionCode(Enum):
     OTHER = 9
     NONE=-1
 
-    # def is_valid_readmit(self, discharge_date: datetime.datetime, readmission_date:datetime.datetime)-> bool:
-    #     """        
-    #     For readmissions only, gives the lower and upper bound since the last admission (the one that led to the readmission)
-    #     Args:
-    #         self: 
-    #     Returns:
-    #         Tuple (int,int) with lower and upper bound.
-    #     """
-    #     if self==ReadmissionCode.PLANNED_READMIT:
-    #        return True
-    #     elif self in (ReadmissionCode.UNPLANNED_READMIT_0_7, ReadmissionCode.UNPLANNED_FROM_SDS_0_7):
-    #         return 0 <= (readmission_date-discharge_date).days  and (readmission_date-discharge_date).days <= 7
-    #     elif self.UNPLANNED_READMIT_8_28:
-    #         # This assert doesn't work, some readmissions labeled 8-28 days are less than 8 days
-    #         # return 8 <= (readmission_date-discharge_date).days  and (readmission_date-discharge_date).days <= 28
-    #         return (readmission_date-discharge_date).days <= 28
-        
     @property
-    def is_unplanned_readmit(self:Self):
+    def is_unplanned_readmit(self:Self) -> bool:
         """
-        Check if the readmission code is one of the one flagging a readmit.
+        Check if the readmission code is one of the codes indicating an unplanned readmission.
 
-        Args:
-            self: 
         Returns:
-            True if the readmit code is one flagging a readmit.
+            bool: True if the code indicates an unplanned readmission, otherwise False.
         """
         return self in (ReadmissionCode.UNPLANNED_READMIT_8_28,
                         ReadmissionCode.UNPLANNED_READMIT_0_7,
                         ReadmissionCode.UNPLANNED_FROM_SDS_0_7)
     @staticmethod
-    def is_readmit(admission_code:Self):
+    def is_readmit(admission_code:Self) -> bool:
         """
-        Check if the readmission code is one of the one flagging a readmit.
+        Check if the given admission code indicates any type of readmission.
 
         Args:
-            self: 
+            admission_code (ReadmissionCode): The admission code to check.
+
         Returns:
-            True if the readmit code is one flagging a readmit.
+            bool: True if the code indicates any type of readmission, otherwise False.
         """
-        return admission_code in (ReadmissionCode.UNPLANNED_READMIT_8_28, 
-                                  ReadmissionCode.UNPLANNED_READMIT_0_7,  
-                                  ReadmissionCode.PLANNED_READMIT, 
+        return admission_code in (ReadmissionCode.UNPLANNED_READMIT_8_28,
+                                  ReadmissionCode.UNPLANNED_READMIT_0_7, 
+                                  ReadmissionCode.PLANNED_READMIT,
                                   ReadmissionCode.UNPLANNED_FROM_SDS_0_7)
     
-    def __str__(self: Self) -> str:        
+    def __str__(self: Self) -> str:   
+        """
+        Get the string representation of the readmission code.
+
+        Returns:
+            str: The name of the readmission code as a string.
+        """     
         representation = ''
         if self == ReadmissionCode.PLANNED_READMIT:
             representation = 'Planned Readmit'
@@ -96,8 +102,22 @@ class ReadmissionCode(Enum):
 
         return representation
 
-# class syntax
 class ComorbidityLevel(Enum):
+    """
+    Enum representing different levels of comorbidity.
+
+    This enum categorizes comorbidity levels into various stages, ranging from no comorbidity
+    to higher levels of comorbidity. It also includes a "not applicable" and "none" category.
+
+    Attributes:
+        NO_COMORBIDITY (int): Code representing no comorbidity.
+        LEVEL_1_COMORBIDITY (int): Code representing level 1 comorbidity.
+        LEVEL_2_COMORBIDITY (int): Code representing level 2 comorbidity.
+        LEVEL_3_COMORBIDITY (int): Code representing level 3 comorbidity.
+        LEVEL_4_COMORBIDITY (int): Code representing level 4 comorbidity.
+        NOT_APPLICABLE (int): Code representing a situation where comorbidity is not applicable.
+        NONE (int): Code representing no specific comorbidity category.
+    """
     NO_COMORBIDITY = 0
     LEVEL_1_COMORBIDITY = 1
     LEVEL_2_COMORBIDITY = 2
@@ -107,6 +127,12 @@ class ComorbidityLevel(Enum):
     NONE=-1
 
     def __str__(self: Self)->str:
+        """
+        Get the string representation of the comorbidity level.
+
+        Returns:
+            str: The name of the comorbidity level as a string.
+        """
         representation = ''
         if self == ComorbidityLevel.NO_COMORBIDITY:
             representation = 'No Comorbidity'
@@ -120,21 +146,39 @@ class ComorbidityLevel(Enum):
             representation = 'Level 4 Comorbidity'
         return representation
 
-# # class syntax
-# class CentralZoneStatus(Enum):
-#     CENTRAL_ZONE = 1
-#     NON_CENTRAL_ZONE = 2
 
-# class syntax
 class TransfusionGiven(Enum):
+    """
+    Enum representing whether a transfusion was given.
+
+    This enum indicates if a transfusion was administered or not. It includes categories for
+    'Yes', 'No', and 'None', with the latter representing an undefined or non-applicable state.
+
+    Attributes:
+        NO (int): Code representing that no transfusion was given.
+        YES (int): Code representing that a transfusion was given.
+        NONE (int): Code representing a non-applicable or undefined state.
+    """
     NO = 0
     YES = 1
     NONE=-1
     @property
     def received_transfusion(self: Self,)->bool:
+        """
+        Check if a transfusion was given.
+
+        Returns:
+            bool: True if the transfusion was given, otherwise False.
+        """
         return self == TransfusionGiven.YES
     
     def __str__(self: Self) -> str:
+        """
+        Get the string representation of the transfusion status.
+
+        Returns:
+            str: The name of the transfusion status as a string.
+        """
         representation=''
         if self == TransfusionGiven.YES:
             representation = 'Yes'
@@ -146,6 +190,21 @@ class TransfusionGiven(Enum):
 
 
 class AdmitCategory(Enum):
+    """
+    Enum representing different categories of admission.
+
+    This enum categorizes admissions into various types, including elective, newborn, cadaver,
+    stillborn, and urgent. It also includes a 'none' category to represent a non-applicable or
+    undefined state.
+
+    Attributes:
+        ELECTIVE (int): Code representing an elective admission.
+        NEW_BORN (int): Code representing a newborn admission.
+        CADAVER (int): Code representing a cadaver admission.
+        STILLBORN (int): Code representing a stillborn admission.
+        URGENT (int): Code representing an urgent admission.
+        NONE (int): Code representing a non-applicable or undefined state.
+    """
     ELECTIVE = 1
     NEW_BORN = 2
     CADAVER = 3
@@ -154,6 +213,12 @@ class AdmitCategory(Enum):
     NONE = -1
 
     def __str__(self: Self) -> str:
+        """
+        Get the string representation of the admission category.
+
+        Returns:
+            str: The name of the admission category as a string.
+        """
         representation=''
         if self == AdmitCategory.ELECTIVE:
             representation = 'Elective admit'
@@ -172,6 +237,19 @@ class AdmitCategory(Enum):
 
 
 class Gender(Enum):
+    """
+    Enum representing different gender categories.
+
+    This enum categorizes gender into several types, including male, female, undifferentiated,
+    other, and none. It also provides properties to check if the gender is male or female.
+
+    Attributes:
+        FEMALE (int): Code representing the female gender.
+        MALE (int): Code representing the male gender.
+        UNDIFFERENTIATED (int): Code representing an undifferentiated or unspecified gender.
+        OTHER (int): Code representing a gender other than male, female, or undifferentiated.
+        NONE (int): Code representing a non-applicable or undefined gender.
+    """
     FEMALE = 1
     MALE = 2
     UNDIFFERENTIATED = 3
@@ -180,13 +258,31 @@ class Gender(Enum):
 
     @property
     def is_male(self:Self, )->bool:
+        """
+        Check if the gender is male.
+
+        Returns:
+            bool: True if the gender is male, otherwise False.
+        """
         return self == Gender.MALE
     
     @property
     def is_female(self:Self, )->bool:
+        """
+        Check if the gender is female.
+
+        Returns:
+            bool: True if the gender is female, otherwise False.
+        """
         return self == Gender.FEMALE
     
     def __str__(self: Self) -> str:
+        """
+        Get the string representation of the gender.
+
+        Returns:
+            str: The name of the gender as a string.
+        """
         representation = ''
         if self == Gender.MALE:
             representation = 'Male'
@@ -203,23 +299,66 @@ class Gender(Enum):
 
 @dataclass
 class Diagnosis:
+    """
+    A class representing a collection of diagnoses.
+
+    This class stores lists of diagnosis codes, texts, and types. It provides a method to prepend 
+    diagnoses from another `Diagnosis` instance, which adds the codes, texts, and types from the 
+    provided instance to the beginning of the current instance's lists.
+
+    Attributes:
+        codes (List[str]): A list of diagnosis codes.
+        texts (List[str]): A list of diagnosis texts.
+        types (List[str]): A list of diagnosis types.
+
+    Methods:
+        prepend_diagnosis(diagnosis: 'Diagnosis') -> None:
+            Prepend the diagnosis codes, texts, and types from another `Diagnosis` instance to the 
+            current instance's lists.
+    """
     codes: list[str]
     texts: list[str]
     types: list[str]    
     
-    # def __post_init__(self):
-    #     if not (len(self.codes)==len(self.texts) and len(self.texts)==len(self.types)):
-    #         print(f'len codes: {self.codes}')
-    #         print(f'len texts: {self.texts}')
-    #         print(f'len types: {self.types}')
-    #     assert len(self.codes)==len(self.texts) and len(self.texts)==len(self.types)
-
     def prepend_diagnosis(self, diagnosis) -> None:
+        """
+        Prepend the diagnosis codes, texts, and types from another `Diagnosis` instance.
+
+        This method updates the current instance's lists by adding the codes, texts, and types 
+        from the provided `Diagnosis` instance to the beginning of the current lists.
+
+        Args:
+            diagnosis (Diagnosis): The `Diagnosis` instance whose codes, texts, and types 
+                                   are to be prepended to the current instance.
+
+        Returns:
+            None: This method does not return a value.
+        """
         self.codes = diagnosis.codes + self.codes
         self.texts = diagnosis.texts + self.texts
         self.types = diagnosis.types + self.types
 
 class EntryCode(Enum):
+    """
+    Enum representing different types of entry codes.
+
+    This enum categorizes various entry types into specific codes. It includes categories for clinic
+    entry, direct entry, emergency entry, newborn entry, day surgery entry, stillborn entry, and
+    a none category representing non-applicable or undefined entries.
+
+    Attributes:
+        NONE (int): Code representing no specific entry type.
+        CLINIC_ENTRY (int): Code representing an clinic entry.
+        DIRECT_ENTRY (int): Code representing a direct entry.
+        EMERGENCY_ENTRY (int): Code representing an emergency entry.
+        NEWBORN_ENTRY (int): Code representing an entry for a newborn.
+        DAY_SURGERY_ENTRY (int): Code representing an entry for a day surgery.
+        STILLBORN_ENTRY (int): Code representing an entry for a stillborn.
+
+    Methods:
+        __str__() -> str:
+            Get the string representation of the entry code.
+    """
     NONE=-1
     CLINIC_ENTRY = 1
     DIRECT_ENTRY = 2
@@ -229,6 +368,12 @@ class EntryCode(Enum):
     STILLBORN_ENTRY=6
 
     def __str__(self: Self) -> str:
+        """
+        Get the string representation of the entry code.
+
+        Returns:
+            str: The name of the entry code as a string.
+        """
         representation = ''
 
         if self == EntryCode.NONE:
@@ -578,7 +723,7 @@ class Admission:
                             )
     
     
-       # ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- 
+    # ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- 
     # CATEGORICAL FEATURES
     # ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- 
     @staticmethod
@@ -742,8 +887,7 @@ class Admission:
         assert self.is_valid_readmission(readmission)
         self.readmission = readmission
 
-    # def fix_missing(self: Self, )-> Self:
-    #     rng = np.random.default_rng(seed=5348363479653547918)
+
 
     # ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- 
     # GET TRAINING AND TESTING DATA
@@ -1039,24 +1183,6 @@ class Admission:
 
         columns = np.array(columns)
 
-        # if params['remove_outliers']:
-        #     # if instances were removed, now some variables might have variance == 0. We need to remove those
-        #     # Variables
-        #     constant_variables = []
-        #     for ix in range(X_train.shape[1]):
-        #         constant_variables.append(True if np.var(X_train[:,ix].toarray())==0 else False)
-        #     constant_variables=np.array(constant_variables)
-
-        #     X_train = X_train[:, ~constant_variables]
-        #     X_test = X_test[:, ~constant_variables]
-        #     columns = columns[~constant_variables]
-        
-        # if 'feature_selection' in params and params['feature_selection']:
-        #     clf = SelectKBest(f_classif, k=params['k_best_features'], ).fit(X_train, y_train)
-        #     X_train = clf.transform(X_train)
-        #     X_test = clf.transform(X_test)
-        #     columns = clf.transform(columns.reshape(1,-1))[0,:]
-
         # ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- 
         # OVER or UNDER SAMPLING (CHANGING NUMBER OF INSTANCES):
         # ---------- ---------- ---------- ---------- ---------- ---------- ---------- ----------
@@ -1118,16 +1244,7 @@ class Admission:
         # ---------- ---------- ---------- ---------- ---------- ---------- ---------- ----------
         io.debug('Looking for constant variables ...')
         columns = np.array(columns) 
-        # if params['under_sample_majority_class'] or params['smote_and_undersampling']:
-        #     io.debug('Using time efficient solution')
-        #     # Time efficient not memory efficient (.toarray to entire matrice)
-        #     constant_variables = np.var(X_train.toarray(),axis=0)==0
-        # else:
-            # Time inefficient but memory efficient (only used when undersampling (less instances))
-            # io.debug('Using memory efficient solution')
-            # constant_variables = np.array(list(
-            #     map(lambda ix: True if np.var(X_train[:,ix].toarray())==0 else False, range(X_train.shape[1]))
-            # ))
+
         io.debug('Using memory efficient solution')
         constant_variables = np.array(list(
             map(lambda ix: True if np.var(X_train[:,ix].toarray())==0 else False, range(X_train.shape[1]))
@@ -1234,8 +1351,6 @@ class Admission:
         # ---------- ---------- ---------- ---------- 
         # Retriving train testing data from JSON file
         # ---------- ---------- ---------- ---------- 
-        # f = open(config['train_val_json'])
-        # train_val_data = json.load(f)
         train_val_data = data_manager.get_train_test_json_content()
 
         # ---------- ---------- ---------- ---------- 
@@ -1255,7 +1370,6 @@ class Admission:
             code = admission.code
             patient2admissions[code].append(admission)
             
-        # print(set([str(admission.entry_code) for admission in all_admissions]))
 
         # ---------- ---------- ---------- ----------
         # Ordering patient list by discharge date (from back )
@@ -1346,8 +1460,7 @@ class Admission:
         # ---------- ---------- ---------- ---------- 
         # Retriving train testing data from JSON file
         # ---------- ---------- ---------- ---------- 
-        # f = open(config['train_val_json'])
-        # train_val_data = json.load(f)
+
         heldout_data = data_manager.get_heldout_json_content()
 
         # ---------- ---------- ---------- ---------- 
@@ -1585,12 +1698,6 @@ class Admission:
         io.debug(f'y: {y.shape}')
 
 
-        # if 'feature_selection' in params and params['feature_selection']:
-        #     io.debug('Applying feature selection')
-        #     clf = SelectKBest(f_classif, k=params['k_best_features'], ).fit(X_train, y_train)
-        #     X_train = clf.transform(X_train)
-        #     X_test = clf.transform(X_test)
-        #     columns = clf.transform(columns.reshape(1,-1))[0,:]
 
         return X, y, columns
     
@@ -1785,23 +1892,6 @@ class Admission:
 
         columns = np.array(columns)
 
-        # if params['remove_outliers']:
-        #     # if instances were removed, now some variables might have variance == 0. We need to remove those
-        #     # Variables
-        #     constant_variables = []
-        #     for ix in range(X_train.shape[1]):
-        #         constant_variables.append(True if np.var(X_train[:,ix].toarray())==0 else False)
-        #     constant_variables=np.array(constant_variables)
-
-        #     X_train = X_train[:, ~constant_variables]
-        #     X_test = X_test[:, ~constant_variables]
-        #     columns = columns[~constant_variables]
-        
-        # if 'feature_selection' in params and params['feature_selection']:
-        #     clf = SelectKBest(f_classif, k=params['k_best_features'], ).fit(X_train, y_train)
-        #     X_train = clf.transform(X_train)
-        #     X_test = clf.transform(X_test)
-        #     columns = clf.transform(columns.reshape(1,-1))[0,:]
 
         # ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- 
         # OVER or UNDER SAMPLING (CHANGING NUMBER OF INSTANCES):
@@ -1864,16 +1954,7 @@ class Admission:
         # ---------- ---------- ---------- ---------- ---------- ---------- ---------- ----------
         print('Looking for constant variables ...')
         columns = np.array(columns) 
-        # if params['under_sample_majority_class'] or params['smote_and_undersampling']:
-        #     print('Using time efficient solution')
-        #     # Time efficient not memory efficient (.toarray to entire matrice)
-        #     constant_variables = np.var(X_train.toarray(),axis=0)==0
-        # else:
-            # Time inefficient but memory efficient (only used when undersampling (less instances))
-            # print('Using memory efficient solution')
-            # constant_variables = np.array(list(
-            #     map(lambda ix: True if np.var(X_train[:,ix].toarray())==0 else False, range(X_train.shape[1]))
-            # ))
+
         print('Using memory efficient solution')
         constant_variables = np.array(list(
             map(lambda ix: True if np.var(X_development[:,ix].toarray())==0 else False, range(X_development.shape[1]))
@@ -1906,161 +1987,3 @@ class Admission:
             columns = clf.transform(columns.reshape(1,-1))[0,:]
 
         return X_development, y_development, X_heldout, y_heldout, columns
-
-
-
-
-
-
-
-        # config = configuration.get_config()
-        # logging = logger.init_logger(config['all_experiments_log'])
-        # columns = []
-
-
-        # # ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- 
-        # # RETRIEVING TRAIN AND TEST
-        # # ---------- ---------- ---------- ---------- ---------- ---------- ---------- ----------
-        # combining_diagnoses = True if 'combining_diagnoses' in params and params['combining_diagnoses'] else False 
-        # combining_interventions = True if 'combining_interventions' in params and params['combining_interventions'] else False 
-        
-        # print(f'Calling Admission.get_training_testing_date(combining_diagnoses={combining_diagnoses}, combining_interventions={combining_interventions})')
-        # heldout_admissions = Admission.get_heldout_data(combining_diagnoses=combining_diagnoses,
-        #                                                 combining_interventions=combining_interventions
-        #                                                 )
-        
-
-        # if params['fix_missing_in_testing']:
-        #     for admission in heldout_admissions:
-        #         admission.fix_missings(heldout_admissions)
-
-        # # ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- 
-        # # TRAINING MATRIX
-        # # ---------- ---------- ---------- ---------- ---------- ---------- ---------- ---------- 
-        # features = []
-        # if params['numerical_features']:
-        #     numerical_df = Admission.numerical_features(heldout_admissions,)
-        #     columns += list(numerical_df.columns)
-        #     if params['remove_outliers']:
-        #         stds = np.std(numerical_df)
-        #         mean = np.mean(numerical_df, axis=0)
-        #         is_outlier=np.sum(numerical_df.values > (mean+4*stds).values, axis=1)>0
-            
-        #     if params['fix_skew']:
-        #         numerical_df['case_weight'] = np.log10(numerical_df['case_weight']+1)
-        #         numerical_df['acute_days'] = np.log10(numerical_df['acute_days']+1)
-        #         numerical_df['alc_days'] = np.log10(numerical_df['alc_days']+1)
-
-        #     if params['normalize']:
-        #         scaler = StandardScaler()
-        #         if params['remove_outliers']:
-        #             scaler.fit(numerical_df.values[~is_outlier,:])
-        #         else:
-        #             scaler.fit(numerical_df.values)
-        #         numerical_df = pd.DataFrame(scaler.transform(numerical_df.values), columns=numerical_df.columns)
-
-        #     features.append(sparse.csr_matrix(numerical_df.values))
-
-        # if params['categorical_features']:
-        #     categorical_df, main_pt_services_list = Admission.categorical_features(heldout_admissions)
-        #     columns += list(categorical_df.columns)
-        #     features.append(sparse.csr_matrix(categorical_df.values))
-
-        # if params['diagnosis_features']:
-        #     min_df = params['min_df'] if 'min_df' in params else 1
-        #     vocab_diagnosis, diagnosis_matrix = Admission.diagnosis_codes_features(heldout_admissions,
-        #                                                                            use_idf=params['use_idf'],
-        #                                                                            min_df=min_df,
-        #                                                                           )
-        #     features.append(diagnosis_matrix)
-        #     columns += list(vocab_diagnosis)
-
-
-        # if params['intervention_features']:
-        #     min_df = params['min_df'] if 'min_df' in params else 1
-        #     vocab_interventions, intervention_matrix = Admission.intervention_codes_features(heldout_admissions,
-        #                                                                                      min_df=min_df,
-        #                                                                                      use_idf=params['use_idf'],
-        #                                                                                     )
-        #     features.append(intervention_matrix)
-        #     columns += list(vocab_interventions)
-
-        # if 'diagnosis_embeddings' in params and params['diagnosis_embeddings']:
-        #     print(f"Loading diagnosis embeddings from model: {params['diag_embedding_model_name']}")
-        #     # If combining diagnosis then cannot use cached (cached embeddings are not combined)
-        #     use_cached = not combining_diagnoses
-        #     diagnosis_embeddings_df = Admission.diagnosis_embeddings(heldout_admissions,
-        #                                                              model_name=params['diag_embedding_model_name'],
-        #                                                              use_cached=use_cached,
-        #                                                              )
-        #     print(f"Diagnosis model loaded. Shape of diag_emb_df={diagnosis_embeddings_df.shape}")
-
-        #     features.append(sparse.csr_matrix(diagnosis_embeddings_df.values))
-        #     columns += list(diagnosis_embeddings_df.columns)
-
-        # if 'intervention_embeddings' in params and params['intervention_embeddings']:
-        #     print(f"Loading intervention embeddings from model: {params['interv_embedding_model_name']}")
-        #     # If combining intervention then cannot use cached (cached embeddings are not combined)
-        #     use_cached = not combining_interventions
-
-        #     intervention_embeddings_df = Admission.intervention_embeddings(heldout_admissions,
-        #                                                              model_name=params['interv_embedding_model_name'],
-        #                                                              use_cached=use_cached
-        #                                                              )
-        #     print(f"Intervention model loaded. Shape of interv_emb_df={intervention_embeddings_df.shape}")
-        #     features.append(sparse.csr_matrix(intervention_embeddings_df.values))
-        #     columns += list(intervention_embeddings_df.columns)
-
-        # if params['remove_outliers'] and params['numerical_features']:
-        #     mask=~is_outlier
-        # else:
-        #     mask = np.ones(shape=(len(heldout_admissions)))==1
-
-        # for ix, matrix in enumerate(features):
-        #     print(f'{ix:2} matrix.shape={matrix.shape}')
-        # X = sparse.hstack([matrix[mask,:] for matrix in features])
-        # y = Admission.get_y(heldout_admissions)[mask]
-
-
-        # columns = np.array(columns)
-
-
-
-
-        # # ---------- ---------- ---------- ---------- ---------- ---------- ---------- ----------
-        # # REMOVING CONSTANT VARIABLES (CHANGING NUMBER OF COLUMNS, need to update all matrices)
-        # # ---------- ---------- ---------- ---------- ---------- ---------- ---------- ----------
-        # print('Looking for constant variables ...')
-        # columns = np.array(columns) 
-
-
-        # print('Using memory efficient solution')
-        # constant_variables = np.array(list(
-        #     map(lambda ix: True if np.var(X[:,ix].toarray())==0 else False, range(X.shape[1]))
-        # ))
-
-
-        # if np.sum(constant_variables)>0:
-        #     # X = X[:,~constant_variables]
-        #     X = X[:,~constant_variables]
-        #     columns = columns[~constant_variables]
-        #     print(f'Removed {np.sum(constant_variables)} columns')
-        # else:
-        #     print('Not constant variables found ...')
-
-        # # ---------- ---------- ---------- ---------- ---------- ---------- ---------- ----------
-        # # FEATURE SELECTION (CHANING COLUMNS, NEED TO UDPATE ALL MATRICES)
-        # # ---------- ---------- ---------- ---------- ---------- ---------- ---------- ----------
-        # print('Shapes of matrices before FS...')
-        # print(f'X: {X.shape}')
-        # print(f'y: {y.shape}')
-
-
-        # # if 'feature_selection' in params and params['feature_selection']:
-        # #     print('Applying feature selection')
-        # #     clf = SelectKBest(f_classif, k=params['k_best_features'], ).fit(X_train, y_train)
-        # #     X_train = clf.transform(X_train)
-        # #     X_test = clf.transform(X_test)
-        # #     columns = clf.transform(columns.reshape(1,-1))[0,:]
-
-        # return X, y, columns
