@@ -1,15 +1,13 @@
 """
->>
 USAGE: python creating_cz_and_noncz_files.py --save-to-disk=[True,False]
->>
 
-if --save-to-disk==False no changes are done (it can be considered as a test run).
-if --save-to-disk==True files are written to disk, can be overwriting files, cannot be undone.
+If --save-to-disk==False, no changes are made (it can be considered a test run).
+If --save-to-disk==True, files are written to disk, potentially overwriting existing files; this action cannot be undone.
 
-This modules carries out three tasks:
-1. Processing 32 Central Zone (CZ) files and saves to disk as an unified file.
-2. Processing 32 Non Central Zonce (Non CZ) files and saves to disk as an unified file.
-3. Takes the newly processed unified Non CZ file. It reads it, fix date format, and saves it again. 
+This module carries out three tasks:
+1. Processes 32 Central Zone (CZ) files and saves them to disk as a unified file.
+2. Processes 32 Non-Central Zone (Non-CZ) files and saves them to disk as a unified file.
+3. Takes the newly processed unified Non-CZ file, reads it, fixes the date format, and saves it again.
 
 In the input files, multiple rows represent the same entry. This script combines them into a single entry:
 
@@ -24,7 +22,7 @@ patient id, diagnosis,
 ,diagnosis_4_patient_2
 ...
 
-EXAMPLE RESULT of first and second task:
+EXAMPLE RESULT of first and second tasks:
 123456,[diagnosis1_patient_1,diagnosis2_patient_1,diagnosis3_patient_1]
 123457,[diagnosis_1_patient_2,diagnosis_2_patient_2,diagnosis_3_patient_2,diagnosis_4_patient_2]
 ...
@@ -32,19 +30,20 @@ EXAMPLE RESULT of first and second task:
 INPUT:
 ------
 ~For task no. 1~
- --------------
-The data is taken from individual CSV files describing the data quarter by quarter (from 2015Q1 until 2022Q4).
+--------------
+The data is taken from individual CSV files describing the data quarter by 
+quarter (from 2015Q1 until 2022Q4).
 cz_files:
  - 2015/ALC Machine 2015Q1 - coded HCN.csv
  - 2015/ALC Machine 2015Q2 - coded HCN.csv
  ...
- -
  - 2022/ALC Machine 2022Q3 - coded HCN.csv
  - 2022/ALC Machine 2022Q4 - coded HCN.csv
 
- ~For task no. 2~
- --------------
-The data is taken from individual CSV files describing the data quarter by quarter (from 2015Q1 until 2022Q4).
+~For task no. 2~
+--------------
+The data is taken from individual CSV files describing the data quarter by 
+quarter (from 2015Q1 until 2022Q4).
 noncz_files:
  - 2015/2015 Non CZ - coded HCN/noncz 2015Q1.csv
  - 2015/2015 Non CZ - coded HCN/noncz 2015Q2.csv
@@ -52,18 +51,18 @@ noncz_files:
  - 2022/2022 Non CZ - coded HCN/noncz 2022Q3.csv
  - 2022/2022 Non CZ - coded HCN/noncz 2022Q4.csv
 
-Total: 32 CZ files (task no. 1), and 32 Non CZ files (task no. 2).
+Total: 32 CZ files (task no. 1), and 32 Non-CZ files (task no. 2).
 
- ~For task no. 3~
- --------------
+~For task no. 3~
+--------------
 The input of the 3rd task is the output of task no. 2.
 
 The path to all input files is retrieved from the config/path.yaml file 
-(no argument required to receive the path to the inputs)
+(no argument required to receive the path to the inputs).
 
 OUTPUT:
 -------
-The output is to files (taken from the config/path.yaml).
+The output is written to files (paths are taken from the config/path.yaml).
 For task no. 1:
 --------------
 unified_merged_file_cz: 
@@ -72,15 +71,13 @@ unified_merged_file_cz:
 For task no. 2:
 --------------
 unified_merged_file_noncz: 
- - /Users/marianomaisonnave/Documents/CBU Postdoc/Grant Data/Merged/2015_2022/full_noncz_database.csv
+ -/Users/marianomaisonnave/Documents/CBU Postdoc/Grant Data/Merged/2015_2022/full_noncz_database.csv
 
 Task no. 3:
 ----------
-Reads full_noncz_database.csv file, corrects dates, and saves it again. 
-The script transform the date into the format: year-month-day. Examples: 2014-12-22, 2015-1-1, ...
-
+Reads the full_noncz_database.csv file, corrects dates, and saves it again. 
+The script transforms the date into the format: year-month-day. Examples: 2014-12-22, 2015-01-01,...
 """
-
 import os
 import pandas as pd
 import numpy as np

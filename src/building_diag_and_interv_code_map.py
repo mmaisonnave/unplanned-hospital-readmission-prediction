@@ -1,22 +1,26 @@
 """
-This script has two main methods:
-    - build_intervention_dict and
-    - build_diagnosis_dict
+This script generates two mappings:
+1. A mapping of intervention codes to their descriptions.
+2. A mapping of diagnosis codes to their descriptions.
 
-The main method loads all the admissions in our dataset, and invokes both methods to generate two mappings. 
+Main Methods:
+- `build_intervention_dict`: Creates a dictionary where each intervention code 
+  from the dataset is mapped to its corresponding description.
+- `build_diagnosis_dict`: Creates a dictionary where each diagnosis code from 
+  the dataset is mapped to its corresponding description.
 
-The first mapping (build_intervention_dict) maps every intervention code in our data to 
-its description (also found in our data)
+The script reads data from a JSON file (`full_database.json`), which contains 
+all admissions in the dataset. It processes the data to generate the two 
+mappings and stores the results in the following files:
+- `Merged/2015_2022/intervention_dict.json`: Stores the intervention code-to-description mapping.
+- `Merged/2015_2022/diagnosis_dict.json`: Stores the diagnosis code-to-description mapping.
 
-The second mapping (build_diagnosis_dict) maps every diagnoses code in our data to 
-its description (also found in our data)
+Command-line Arguments:
+- `--save-to-disk`: Specifies whether to save the generated mappings to disk.
+- `--compute-diagnoses`: Specifies whether to generate and save the diagnosis code mapping.
+- `--compute-interventions`: Specifies whether to generate and save the intervention code mapping.
 
-Its read the data from the full JSON file (full_database.json). 
-
-Its stores the results in the following two files:
- - Merged/2015_2022/diagnosis_dict.json
- - Merged/2015_2022/intervention_dict.json
-
+If the user chooses not to save the results, the mappings will be generated but not stored.
 """
 import argparse
 import json

@@ -1,5 +1,5 @@
 """
-This scripts takes a JSON file with all the data and split it into three:
+This script takes a JSON file with all the data and splits it into three:
 1. training and test set
 2. held-out set
 3. unused set.
@@ -8,8 +8,8 @@ This scripts takes a JSON file with all the data and split it into three:
 USAGE: python creating_cz_and_noncz_files.py --save-to-disk=[True,False]
 >>
 
-if --save-to-disk==False no changes are done (it can be considered as a test run).
-if --save-to-disk==True files are written to disk, can be overwriting files, cannot be undone.
+If --save-to-disk==False, no changes are made (this can be considered a test run).
+If --save-to-disk==True, files are written to disk, potentially overwriting files, and this action cannot be undone.
 
 *INPUT*
 json_file: full_database.json
@@ -18,10 +18,8 @@ json_file: full_database.json
 train_val_json: train_validation.json
 heldout_json: heldout.json
 unused_after_heldout_json: unused_after_held_out.json
-
-
-
 """
+
 
 from collections import defaultdict
 import numpy as np

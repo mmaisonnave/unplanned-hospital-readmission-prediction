@@ -1,3 +1,23 @@
+"""
+This module trains a Logistic Regression (LR) model for the unplanned hospital 
+readmission task, utilizing the configuration that achieved the best performance 
+(`configuration_93`).
+
+Key functionalities:
+1. Loads the data and model configuration specified by `configuration_93`.
+2. Standardizes the input data to ensure the LR model coefficients are comparable.
+3. Trains the LR model on the standardized training data.
+4. Evaluates the model's performance on both the training and test sets.
+5. Stores the model's performance metrics and the LR coefficients, which can be 
+   used to explain the model's decisions.
+6. Maps the feature names to human-readable descriptions, including whether they 
+   are diagnosis or intervention codes.
+7. Saves the coefficients along with their descriptions to a CSV file for 
+   interpretability.
+
+This module allows for the analysis of feature importance through the model's 
+coefficients.
+"""
 import json
 import pandas as pd
 import numpy as np
@@ -15,26 +35,6 @@ from utilities import io
 from utilities import metrics
 
 
-def _logit_pvalue(model, x):
-    """ Calculate z-scores for scikit-learn LogisticRegression.
-     parameters:
-     model: fitted sklearn.linear_model.LogisticRegression with intercept and large C
-        x:     matrix on which the model was fit
-            This function uses asymtptics for maximum likelihood estimates.
-    """
-    p = model.predict_proba(x)
-    n = len(p)
-    m = len(model.coef_[0]) + 1
-    coefs = np.concatenate([model.intercept_, model.coef_[0]])
-    x_full = np.matrix(np.insert(np.array(x), 0, 1, axis = 1))
-    ans = np.zeros((m, m))
-    for i in range(n):
-        ans = ans + np.dot(np.transpose(x_full[i, :]), x_full[i, :]) * p[i,1] * p[i, 0]
-    vcov = np.linalg.inv(np.matrix(ans))
-    se = np.sqrt(np.diag(vcov))
-    t =  coefs/se
-    p = (1 - scipy.stats.norm.cdf(abs(t))) * 2
-    return p
 
 
 if __name__ == '__main__':
@@ -68,26 +68,6 @@ if __name__ == '__main__':
     io.debug('Training data ...')
     logreg.fit(X_train, y_train)
 
-    def _get_metric_evaluations(evaluated_model, X, y_true, model_config_name, experiment_config_name, description=''):
-        y_pred = evaluated_model.predict(X)
-        y_score = evaluated_model.predict_proba(X)[:,1]
-
-        tn, fp, fn, tp = confusion_matrix(y_true, y_pred).ravel()
-        results = {'Description': description,
-                            'Accuracy': accuracy_score(y_true, y_pred),
-                            'Precision': precision_score(y_true, y_pred),
-                            'Recal': recall_score(y_true, y_pred),
-                            'F1-Score': f1_score(y_true, y_pred),
-                            'AUC': roc_auc_score(y_true=y_true, y_score=y_score),
-                            'TN': tn,
-                            'TP': tp,
-                            'FN': fn,
-                            'FP': fp,
-                            'Model config': model_config_name,
-                            'Experiment config': experiment_config_name
-                            }
-        results = {key: [results[key]] for key in results}
-        return pd.DataFrame(results)
 
     io.debug('Computing model results ...')
     df = pd.concat([metrics.get_metric_evaluations(logreg, 
@@ -134,9 +114,6 @@ if __name__ == '__main__':
     coefficients_df = coefficients_df[['Feature Name', 'Score']]
     coefficients_df['Code Description'] = list(map(code2description, coefficients_df['Feature Name']))
 
-
-    # I could never run this process, it dies, 7 days is not enough time to run this part. Pvalues are not computed
-    # coefficients_df['pvalues'] = _logit_pvalue(logreg, X_train)
 
     coefficients_df.to_csv(config['explainable_lr_coefficients'], index=False)
     io.debug('DONE')

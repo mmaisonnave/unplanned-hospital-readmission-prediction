@@ -1,11 +1,57 @@
-"""This module takes the name of all the models present in gensim.json, and for all the models that were already
-trained, it loads them and try their performance on the task of diagnosis similarity. 
-
-It saves the results in gensim/results/{diagnosis_results.csv and intervention_results.csv}
-
-Only evaluates models that are already trained and available to load from disk in the gensim/models/ folder.
-
 """
+Module: gensim_model_evaluation
+
+Description:
+------------
+This module evaluates the performance of pre-trained Gensim Doc2Vec models on the 
+task of diagnosis and intervention similarity. It loads models specified in the 
+configuration file, applies them to a sample of data, and computes the ranking of 
+the correct diagnosis or intervention codes. The results are saved in CSV files for 
+further analysis.
+
+Usage:
+------
+python gensim_model_evaluation.py --considered-ranks=<int> --random-sample-size=<int>
+
+Arguments:
+----------
+--considered-ranks : int [Required]
+    The number of top similar documents to consider for ranking evaluation.
+
+--random-sample-size : int [Required]
+    The number of random samples to use for evaluation from the total dataset.
+
+Functionality:
+--------------
+1. **Loading Configuration**:
+   - Reads model configurations from 'gensim_config' specified in the configuration file.
+
+2. **Data Preparation**:
+   - Loads training and testing data using the `health_data.Admission.get_training_testing_data()` method.
+   - Prepares diagnosis and intervention data for evaluation.
+
+3. **Model Evaluation**:
+   - For each model listed in the configuration file, the script:
+     - Loads the model from the specified folder.
+     - Selects a random sample of data.
+     - Computes the similarity rankings of the diagnosis or intervention codes.
+     - Records the rank of the correct code in the list of most similar codes.
+
+4. **Results**:
+   - Generates CSV files containing the evaluation results:
+     - `diagnosis_results.csv`: Evaluation results for diagnosis models.
+     - `intervention_results.csv`: Evaluation results for intervention models.
+   - Files are saved in the 'gensim_results_folder' specified in the configuration file.
+
+5. **Output Format**:
+   - The CSV files have columns for ranks, with each model's performance reported.
+
+Warnings:
+---------
+- Models must be pre-trained and available in the 'gensim_model_folder' for evaluation.
+- The CSV files will be overwritten if they already exist in the results folder.
+"""
+
 import gensim
 import numpy as np
 import collections

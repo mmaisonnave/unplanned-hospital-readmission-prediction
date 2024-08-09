@@ -1,6 +1,166 @@
 """
+This module defines several classes and enumerations related to patient admissions 
+in a healthcare context. 
+
+Classes:
+    - ReadmissionCode(Enum):  Represents different types of patient readmissions,
+                              with methods to check if a readmission is unplanned or 
+                              if it is a readmission at all.
+
+    - ComorbidityLevel(Enum): Represents different levels of patient comorbidity, with
+                              a method to return a string representation.
+
+    - TransfusionGiven(Enum): Indicates whether a patient has received a transfusion,
+                              with methods to check transfusion status and convert to 
+                              string.
+
+    - AdmitCategory(Enum):    Categorizes the nature of a patient's admission (e.g., elective,
+                              urgent), with a string representation method.
+
+    - Gender(Enum):           Represents the gender of the patient, with methods to check gender 
+                              and convert to string.
+
+    - Diagnosis:              Contains lists of diagnosis codes, texts, and types associated 
+                              with a patient's admission.
+
+    - EntryCode(Enum):        Represents different types of patient entry into the hospital, 
+                              with a string representation method.
+
+    - Admission:              Encapsulates all data related to a patient's admission, including 
+                              methods for data processing, feature extraction, and validation 
+                              for machine learning models.
+
+The module is designed to facilitate the extraction of features from patient admission records 
+and the training/testing of machine learning models, specifically for predicting readmissions, 
+comorbidity levels, and other healthcare-related outcomes.
 
 
+SYMBOLS:
+--------
+class ReadmissionCode(Enum):
+    PLANNED_READMIT = 1
+    UNPLANNED_READMIT_0_7 = 2
+    UNPLANNED_READMIT_8_28 = 3
+    UNPLANNED_FROM_SDS_0_7 = 4
+    NEW_ACUTE_PATIENT = 5
+    OTHER = 9
+    NONE=-1
+    
+    # Methods
+    is_unplanned_readmit(self:Self) -> bool:
+    is_readmit(admission_code:Self) -> bool:
+
+
+class ComorbidityLevel(Enum):
+    NO_COMORBIDITY = 0
+    LEVEL_1_COMORBIDITY = 1
+    LEVEL_2_COMORBIDITY = 2
+    LEVEL_3_COMORBIDITY = 3
+    LEVEL_4_COMORBIDITY = 4
+    NOT_APPLICABLE = 8
+    NONE=-1
+    
+
+class TransfusionGiven(Enum):
+    NO = 0
+    YES = 1
+    NONE=-1
+
+    # Methods
+    received_transfusion(self: Self,)->bool:    
+
+class AdmitCategory(Enum):
+    ELECTIVE = 1
+    NEW_BORN = 2
+    CADAVER = 3
+    STILLBORN = 5
+    URGENT = 6 
+    NONE = -1
+
+class Gender(Enum):
+    FEMALE = 1
+    MALE = 2
+    UNDIFFERENTIATED = 3
+    OTHER = 4
+    NONE = -1
+
+    # Methods
+    is_male(self:Self, )->bool:
+    is_female(self:Self, )->bool:
+
+class Diagnosis:
+    codes: list[str]
+    texts: list[str]
+    types: list[str] 
+
+
+class EntryCode(Enum):
+    NONE=-1
+    CLINIC_ENTRY = 1
+    DIRECT_ENTRY = 2
+    EMERGENCY_ENTRY = 3
+    NEWBORN_ENTRY = 4
+    DAY_SURGERY_ENTRY=5
+    STILLBORN_ENTRY=6
+
+    
+class Admission:
+    admit_id: int
+    code: Union[int,None]
+    institution_number: int
+    admit_date: Union[datetime.datetime,None]
+    discharge_date: datetime.datetime
+    readmission_code: ReadmissionCode
+    age: int
+    gender: Gender
+    mrdx: str
+    postal_code: str
+    diagnosis: Diagnosis
+    intervention_code:list
+    px_long_text:list
+    admit_category: AdmitCategory
+    transfusion_given: TransfusionGiven
+    main_pt_service:str
+    cmg: Union[float,None]
+    comorbidity_level:ComorbidityLevel
+    case_weight: Union[float,None]
+    alc_days: int
+    acute_days: int
+    institution_to: str
+    institution_from: str
+    institution_type: str
+    discharge_unit:str
+    is_central_zone: bool
+    entry_code:EntryCode
+    readmission: Self
+
+    # Methods
+    has_missing(self:Self,)->bool:
+    __iter__(self: Self):
+    __post_init__(self):
+    from_dict_data(admit_id:int, admission:dict) -> Self:
+    __repr__(self: Self,)->str:
+    diagnosis_codes_features(admissions: list[Self], min_df, vocabulary=None, use_idf:bool = False)->(np.ndarray, sparse._csr.csr_matrix):
+    intervention_codes_features(admissions: list[Self], min_df, vocabulary=None, use_idf:bool = False)->(np.ndarray, sparse._csr.csr_matrix):
+    diagnosis_embeddings(admissions: list[Self], model_name:str, use_cached:bool =True) -> pd.DataFrame:
+    intervention_embeddings(admissions: list[Self], model_name:str, use_cached:bool=True, ) -> pd.DataFrame:
+    categorical_features(admissions: list[Self],main_pt_services_list=None) -> pd.DataFrame:
+    is_valid_training_instance(self:Self)->bool:
+    is_valid_testing_instance(self:Self)->bool:
+    numerical_features(admissions: list[Self],) -> pd.DataFrame:
+    get_diagnoses_mapping():
+    get_intervention_mapping():
+    get_y(admissions: list[Self])->np.ndarray:
+    has_readmission(self: Self,)->bool:
+    length_of_stay(self: Self)->int:
+    is_valid_readmission(self, readmission: Self)->bool:
+    add_readmission(self, readmission: Self):
+    get_training_testing_data(filtering=True, combining_diagnoses=False, combining_interventions=False) -> list[Self]:
+    get_train_test_matrices(params):
+    fix_missings(self: Self, training: list[Self]):
+    get_train_test_data(filtering=True, combining_diagnoses=False, combining_interventions=False) -> list[Self]:
+    get_heldout_data(filtering=True,
+    get_both_train_test_matrices(params):
 """
 from dataclasses import dataclass, fields
 from enum import Enum

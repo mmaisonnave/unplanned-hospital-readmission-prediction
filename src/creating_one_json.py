@@ -1,22 +1,75 @@
 """
->>
-USAGE: python creating_cz_and_noncz_files.py --save-to-disk=[True,False]
->>
+Script: creating_cz_and_noncz_files.py
 
-if --save-to-disk==False no changes are done (it can be considered as a test run).
-if --save-to-disk==True files are written to disk, can be overwriting files, cannot be undone.
+Description:
+------------
+This script processes patient admission data from an input CSV 
+file and converts it into a JSON format. The input and output 
+file paths are specified in the 'config/paths.yaml' 
+configuration file. 
 
-The script takes the data from the input CSV file and stores as a JSON in the output file. 
-Path to both files is obtained from the file config/paths.yaml
+The script offers two modes of operation:
+1. **Test Run**: No changes are saved to disk (useful for validation 
+   purposes).
+2. **Save to Disk**: The JSON output is saved to disk, potentially 
+   overwriting existing files. This action is irreversible.
 
-**INPUT**
-unified_merged_file: full_database.csv
+Usage:
+------
+python creating_cz_and_noncz_files.py --save-to-disk=[True|False]
 
- 
-**OUTPUT**
-json_file: /full_database.json
+Arguments:
+----------
+--save-to-disk : str [Required]
+    - 'True'  : Saves the generated JSON data to disk.
+    - 'False' : No data is saved to disk; this is a dry run for testing.
 
+Input:
+------
+- unified_merged_file : Path to the input CSV file containing the full database.
+    (Configured in config/paths.yaml)
 
+Output:
+-------
+- json_file : Path to the output JSON file.
+    (Configured in config/paths.yaml)
+    - Example: /full_database.json
+
+Details:
+--------
+The script reads the input CSV file and transforms each row into a dictionary, 
+which is then stored in a JSON file. The following fields are extracted 
+and processed:
+
+1. **Coded HCN** (Health Card Number)
+2. **Institution Number**
+3. **Admit Date** and **Discharge Date**
+4. **Readmission Code**
+5. **Patient Age**
+6. **Gender**
+7. **MRDx** (Most Responsible Diagnosis)
+8. **Postal Code**
+9. **Diagnosis Code** and **Diagnosis Long Text**
+10. **Diagnosis Type**
+11. **Intervention Code** and **Px Long Text**
+12. **Admit Category**
+13. **Entry Code**
+14. **Transfusion Given**
+15. **Main Pt Service** (Main Patient Service)
+16. **CMG** (Case Mix Group)
+17. **Comorbidity Level**
+18. **Case Weight**
+19. **ALC Days** (Alternate Level of Care Days)
+20. **Acute Days**
+21. **Institution To** and **Institution From**
+22. **Institution Type**
+23. **Discharge Nurse Unit**
+24. **CZ Status** (Central Zone Status)
+
+Warnings:
+---------
+- When `--save-to-disk=True`, the output JSON will be written to disk, which may 
+  overwrite existing files. This action cannot be undone.
 """
 import pandas as pd
 import datetime
