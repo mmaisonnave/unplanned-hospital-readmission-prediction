@@ -1,3 +1,19 @@
+"""
+This module computes Shapley values using the best-performing model for the
+Unplanned Hospital Readmission task: the Balanced Random Forest (BRF). The 
+model is trained using the configuration that maximizes performance 
+(`configuration_93`). The module outputs both the performance metrics of the 
+BRF model and a SHAP visualization to interpret the model's predictions.
+
+
+Main functionalities:
+1. Loads the model and data based on the specified experiment configuration.
+2. Trains the BRF model from scratch using the training data.
+3. Evaluates the model's performance on both the training and test sets.
+4. Computes SHAP values for a subset of the test data to explain the model's 
+   predictions.
+5. Generates and saves a beeswarm plot to visualize the SHAP values.
+"""
 import sys
 import pickle
 import joblib

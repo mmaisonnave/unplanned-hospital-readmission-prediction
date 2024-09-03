@@ -1,16 +1,26 @@
 """
-This script computes the permutation feature importance for a BalancedRandomForestModel model.
-The scripts stores the results in a CSV file that contains the sorted features with the associated
-importance score and std.
+This script computes the permutation feature importance for a 
+BalancedRandomForestClassifier (BRF) model, focusing on a subset of features 
+that includes only categorical and numerical variables, excluding diagnosis 
+and intervention codes.
 
-The scripts computes the feature importance of a model that
-only uses categorical and numerical variables (ignoring diagnosis and intervention codes).
+Key functionalities:
+1. Loads the data and model configuration specified by `configuration_93`.
+2. Filters out diagnosis and intervention codes from the dataset, retaining only 
+   categorical and numerical variables.
+3. Trains a new BRF model using the filtered dataset.
+4. Evaluates the performance of the trained BRF model on both the training and 
+   test sets.
+5. Computes the permutation feature importance for the BRF model, providing 
+   insights into the importance of each feature.
+6. Saves the performance metrics of the BRF model and the permutation feature 
+   importance results to CSV files for further analysis.
 
-the results is stored in:
-    - permutation_feature_importance_only_num_and_cat.csv and 
-    - brf_with_cat_and_num.csv (performance metric for the BRF model without interv and diag features)
-
-
+The results are stored in:
+- `permutation_feature_importance_only_num_and_cat.csv`: Contains the sorted 
+  features along with their associated importance scores and standard deviations.
+- `brf_with_cat_and_num.csv`: Contains the performance metrics for the BRF 
+  model trained without diagnosis and intervention features.
 """
 import json
 import joblib

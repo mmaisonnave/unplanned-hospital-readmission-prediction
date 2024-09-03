@@ -1,10 +1,22 @@
 """
-This scripts takes config/gensim.json as an input, and computes each one of the 
-embedding models described in the file. It skips all already  computed embeddings (those 
-which are already stored in disk).
+This script processes the configuration file `config/gensim.json` to compute 
+embedding models. It generates embeddings based on the specified configurations, 
+skipping any models that have already been computed and stored on disk.
 
-The results are stored (an read from) gensim/models/
+The generated embeddings are stored in the directory `gensim/models/`, and the 
+script reads from this directory to check for existing models.
 
+Workflow:
+1. The script loads the configurations from `config/gensim.json`.
+2. It retrieves the training and testing data.
+3. For each intervention embedding model specified in the configuration file:
+   - If the model has not been computed yet, the script generates the embeddings 
+     and stores them.
+   - If the model has already been computed and stored, the script skips it.
+4. The same process is repeated for the diagnosis embedding models.
+
+The script ensures that no redundant computations are performed by checking if 
+the embeddings already exist on disk before proceeding with model computation.
 """
 import json
 import os

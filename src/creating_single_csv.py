@@ -1,26 +1,50 @@
 """
->>
-USAGE: python creating_cz_and_noncz_files.py --save-to-disk=[True,False]
->>
+Script: creating_cz_and_noncz_files.py
 
-if --save-to-disk==False no changes are done (it can be considered as a test run).
-if --save-to-disk==True files are written to disk, can be overwriting files, cannot be undone.
+Description:
+------------
+This script merges two patient admission data files into a single unified dataset, 
+generating derived columns and storing the combined result in a CSV file. The input 
+files represent two distinct datasets: one for Central Zone (CZ) and another for 
+Non-Central Zone (Non-CZ) patients. The paths for these input and output files are
+specified in the 'config/paths.yaml' file.
 
+Usage:
+------
+python creating_cz_and_noncz_files.py --save-to-disk=[True|False]
 
-This scripts take two files describing the database:
-1. unified_merged_file_cz: full_cz_database.csv
-2. unified_merged_file_noncz: full_noncz_database.csv
+Arguments:
+----------
+--save-to-disk : str [Required]
+    - 'True'  : Saves the merged dataset to disk. Be aware that this may 
+                overwrite existing files.
+    - 'False' : No data is saved to disk; this is a dry run for testing.
 
-and combines the two files into one:
-3. unified_merged_file: 
-    - /Users/marianomaisonnave/Documents/CBU Postdoc/Grant Data/Merged/2015_2022/full_database.csv
+Functionality:
+--------------
+1. **Reads Input Files**: 
+   - CZ Dataset: `full_cz_database.csv`
+   - Non-CZ Dataset: `full_noncz_database.csv`
+   - Input paths are defined in the 'config/paths.yaml' file.
 
-A couple of derived columns are built, but so far we haven't use them.
+2. **Processes the Data**:
+   - Generates derived columns such as:
+     - **is ALC Patient**: Identifies patients with Alternate Level of Care (ALC) days.
+     - **Total Days in Hospital**: Calculates the total duration of hospital stay.
+     - **Discharge Date (year-month)**: Extracts the year and month from the discharge date.
+   - Adds a **CZ Status** column to differentiate between CZ and Non-CZ data.
 
-All path to the two input files and the output file are take from the config/paths.yaml file. 
-No need to any input except the param "save-to-disk". If false, the run is a test run 
-with no changes.
+3. **Merges the Data**:
+   - Combines the processed CZ and Non-CZ datasets into a single dataframe.
 
+4. **Output**:
+   - If `--save-to-disk=True`, the merged dataset is saved to the specified output path in 'config/paths.yaml'. 
+   - Example output: `/Users/marianomaisonnave/Documents/CBU Postdoc/Grant Data/Merged/2015_2022/full_database.csv`
+
+Warnings:
+---------
+- When `--save-to-disk=True`, the output CSV will be written to disk, potentially overwriting 
+  existing files. This action is irreversible.
 """
 import pandas as pd
 from datetime import date

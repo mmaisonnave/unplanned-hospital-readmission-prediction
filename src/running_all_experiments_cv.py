@@ -8,7 +8,7 @@ runs none and makes no change in disk (dry run).
 
 The main function takes as INPUT:
 (1). 'experiment_configuration.json' file and
-(2). 'models.json' file
+(2). 'model_configurations.json' file
 (the path for both files is obtained from paths.yaml)
 
 In (1), I have the configuration on how to compute the training and testing matrices (in the 
@@ -19,51 +19,60 @@ random forests, etc.).
 
 Both files (1 and 2) have multiple configurations that describe ALL experiments to be run.
 
-For example, the first model (model_0) in `models.json` is a SVC model that contains 
+For example, the first model (model_1) in `model_configurations.json` is a BRF model that contains 
 the following parameters:
-    "model_0": {
-        "model_name": "SVC",
-        "C": 1.0,
-        "kernel": "rbf",
-        "degree": 3,
-        "gamma": "scale",
-        "coef0": 0.0,
-        "shrinking": true,
-        "probability": true,
-        "tol": 0.001,
-        "cache_size": 200,
-        "class_weight": null,
-        "verbose": false,
-        "max_iter": 5000,
-        "decision_function_shape": "ovr",
-        "break_ties": false,
-        "random_state": null,
-        "configuration_ids": ["configuration_0"]
+    "model_1": {"model_name":"BRF(sampling_strategy=majority, replace=True,n_estimators=500,balanced_subsample)",
+                    "n_estimators": 500,
+                    "criterion": "gini",
+                    "max_depth": null,
+                    "min_samples_split": 2,
+                    "min_samples_leaf": 1,
+                    "min_weight_fraction_leaf":0.0,
+                    "max_features": "sqrt",
+                    "max_leaf_nodes": null,
+                    "min_impurity_decrease":0.0,
+                    "bootstrap": true,
+                    "oob_score": false,
+                    "sampling_strategy": "majority",
+                    "replacement": true,
+                    "n_jobs": null,
+                    "verbose": 0,
+                    "warm_start": false,
+                    "class_weight": "balanced_subsample",
+                    "ccp_alpha": 0.0,
+                    "max_samples": null,
+                    "configuration_ids": ["configuration_27",
+                                        ...]
     }
 
-Model_0 uses "configuration_0" to set up the matrices (see last line of model config). 
-Configuration_0 looks like this:
-    "configuration_0": {
+Model_1 uses "configuration_27" to set up the matrices.
+Configuration_27 looks like this:
+    "configuration_27": {
+        "description": "(N)" ,
         "fix_skew": false,
         "normalize": false,
         "fix_missing_in_testing": true,
         "numerical_features": true,
-        "categorical_features": true,
-        "diagnosis_features": true,
-        "intervention_features": true,
+        "categorical_features": false,
+        "diagnosis_features": false,
+        "intervention_features": false,
         "use_idf": false,
         "class_balanced": false,
-        "remove_outliers": true,
+        "remove_outliers": false,
         "under_sample_majority_class": false,
         "over_sample_minority_class": false,
-        "smote_and_undersampling":false
-    }
+        "smote_and_undersampling":false,
+        "diagnosis_embeddings": false,
+        "intervention_embeddings": false,
+        "combining_diagnoses": false,
+        "combining_interventions": false
+    },
 
-In total, more than a hundred experiments are described in the config files, when this methods run, 
+In total, more than two hundred experiments are described in the config files, when this methods run, 
 it computes all experiments unless they are already computed and we already have the results stored.
 
 
-The OUTPUT of the experiments is stored in: 'experiments_results.csv' (path obtained from paths.yaml)
+The OUTPUT of the experiments is stored in: 'experiments_results_cv.csv' (path obtained from paths.yaml)
 
 
 On a high level, the main functions does the following:
@@ -71,12 +80,17 @@ On a high level, the main functions does the following:
 2. Computes from all the described experiments how many are already ran.
 3. for each experiment_config found in 'experiment_configuration.json':
 4.     X_train, y_train, X_test, y_test <= get_matrices_from config(experiment_config)
-5.     for each model_config in 'models.json':
+5.     for each model_config in 'model_configurations.json':
 6.         model <= get_model_from_config(model_config)
-7.         model.fit(X_train,y_train)
-8.         compute_training_metrics(model, X_train, y_train)
-8.         compute_testing_metrics(model, X_test, y_test)
-9.         append new results to existing result file ('experiments_results.csv')
+7.         for fold in 3-fold cross-validation experiment:
+8.             if sampling_on:
+9.                 apply_sampling
+10.            if feature_selection_on:
+11.                apply_feature_selection
+12.            model.fit(training_folds_X,training_folds_y)
+13.            compute_training_metrics(model, X_train, y_train)
+14.            compute_testing_metrics(model, X_test, y_test)
+15.            append new results to existing result file ('experiments_results_cv.csv')
 
 ** From step(2), we know which experiments were already ran, so in (3) and (4) we skip model_config and
    experiment_config that were already run.
@@ -151,10 +165,10 @@ if __name__ == '__main__':
         csv_output_file = config['custom_conf_results_cv'][:-4]+f'_{args.experiment_configuration}.csv'
     print(f'STORING results in: {csv_output_file}')
 
-    # ---------- ---------- ---------- ---------- ---------- ---------- #
-    # Retrieving model (models.json) and experiment configurations      #
-    # (experiment_configuration.json)                                   #
-    # ---------- ---------- ---------- ---------- ---------- ---------- #
+    # ---------- ---------- ---------- ---------- ---------- ---------- ---------- #
+    # Retrieving model (model_configurations.json) and experiment configurations   #
+    # (experiment_configuration.json)                                              #
+    # ---------- ---------- ---------- ---------- ---------- ---------- ---------- #
     model_configurations = json.load(open(config['models_config'], encoding='utf-8'))
     experiment_configurations = json.load(open(config['experiments_config'], encoding='utf-8'))
     io.debug(f'Using {len(model_configurations):4} different models.')
