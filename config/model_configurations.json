@@ -43,7 +43,8 @@
                                        "configuration_70",
                                        "configuration_93",
                                        "configuration_94",
-                                       "configuration_95"
+                                       "configuration_95",
+				       "configuration_108"
                                        ]
     },
     "model_2": {"model_name":"BRF(sampling_strategy=auto, replace=True,n_estimators=500)",

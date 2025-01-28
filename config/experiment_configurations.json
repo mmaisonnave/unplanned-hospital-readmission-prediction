@@ -722,7 +722,7 @@
         "combining_diagnoses": true,
         "combining_interventions": false
     },
-    "configuration_93_bis": {
+    "configuration_108": {
         "description": "(N)+(C)" ,
         "fix_skew": false,
         "normalize": false,
